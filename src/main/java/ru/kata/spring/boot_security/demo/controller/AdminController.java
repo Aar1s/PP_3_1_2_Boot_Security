@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,13 +12,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
-
-public class UserController {
-
+@RequestMapping("/admin/users")
+public class AdminController {
     UserService userService;
 
-    public UserController(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -25,7 +24,7 @@ public class UserController {
     public String index(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-    return "users/index";
+        return "users/index";
     }
 
     @GetMapping("/{id}")

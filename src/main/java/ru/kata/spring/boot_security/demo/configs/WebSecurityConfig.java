@@ -20,11 +20,8 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
     UserService userService;
-
-    public WebSecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -37,17 +34,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
+                //Доступ только для не зарегистрированных пользователей
+                .antMatchers("/registration").not().fullyAuthenticated()
+                //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/").hasRole("USER")
+                .antMatchers("/users/").hasRole("USER")
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().successHandler(new SuccessUserHandler())
+                //Настройка для входа в систему
+                .formLogin()
                 .permitAll()
                 .and()
-                .logout().logoutUrl("/logout/")
+                .logout().logoutUrl("/logout")
                 .permitAll()
-                .logoutSuccessUrl("/login");
+                .logoutSuccessUrl("/");
     }
 }
+    /*@Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+        UserDetails user =
+                User.withDefaultPasswordEncoder()
+                        .username("user")
+                        .password("user")
+                        .roles("USER")
+                        .build();
+        UserDetails admin =
+                User.withDefaultPasswordEncoder()
+                        .username("admin")
+                        .password("admin")
+                        .roles("USER", "ADMIN")
+                        .build();
+        return new InMemoryUserDetailsManager(user, admin);
+    }
 
+     */

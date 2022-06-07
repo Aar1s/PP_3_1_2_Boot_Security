@@ -46,7 +46,6 @@ public class AdminController {
             System.out.println("Error occurred!");
             return "users/new";
         }
-        System.out.println(user.getName());
         userService.add(user);
         return "redirect:/admin/users/";
     }

@@ -60,7 +60,6 @@ public class UserDAOImpl implements UserDAO {
             User user = entityManager.find(User.class, i);
             System.out.println(user.getUsername());
             if (user.getUsername().equals(usernameToFind)) {
-                System.out.println(user.getRoles());
                 return user;
             }
         }

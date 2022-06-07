@@ -2,7 +2,6 @@ package ru.kata.spring.boot_security.demo.dao;
 //Is it working?
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -55,11 +54,16 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User findUserByUsername(String usernameToFind) {
-        for (User user: getAllUsers()) {
-            if (user.getUsername().equals(usernameToFind)){
+        //TypedQuery<User> query = (TypedQuery<User>) entityManager.createQuery("from User where username = (:usernameToFind)");
+        //return entityManager.find(User.class, username);
+        for (int i = 1; i <= getAllUsers().size(); i++) {
+            User user = entityManager.find(User.class, i);
+            System.out.println(user.getUsername());
+            if (user.getUsername().equals(usernameToFind)) {
                 return user;
             }
         }
-        throw new UsernameNotFoundException("User not found");
+        System.out.println("НЕ рбаотет");
+        return null;
     }
 }

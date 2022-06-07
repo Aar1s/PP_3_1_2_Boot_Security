@@ -32,7 +32,7 @@ public class AdminController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.getById(id));
-        return "users/show";
+        return "users/showAdmin";
     }
 
     @GetMapping("/new")

@@ -15,7 +15,7 @@
         <td th:utext="${user.getName()}">...</td>
         <td th:utext="${user.getSurname()}">...</td>
         <td th:utext="${user.getAge()}">...</td>
-        <td><a th:href="@{/users/{id}(id=${user.getId()})}">Show User</a>...</td>
+        <td><a th:href="@{/admin/users/{id}(id=${user.getId()})}">Show User</a>...</td>
     </tr>
 </table>
 <a href="new/">Create new user</a>

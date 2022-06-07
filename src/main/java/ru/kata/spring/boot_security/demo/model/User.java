@@ -2,18 +2,23 @@ package ru.kata.spring.boot_security.demo.model;
 
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.List;
 
 
 @Data
 @Entity
 @Table(name = "Users")
-public class User {
-
+public class User implements UserDetails {
+    @ElementCollection
+    private List<GrantedAuthority> grantedAuthorities;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -29,6 +34,18 @@ public class User {
     @Min(value = 0, message = "User's Age should be more than 0!")
     private int age;
 
+    @ManyToMany(cascade=CascadeType.MERGE)
+    @JoinTable(
+            name="users_roles",
+            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
+    private List<Role> roles;
+
+
+
+    private String username;
+    private String password;
+
     public int getId() {
         return id;
     }
@@ -38,10 +55,13 @@ public class User {
 
     public User() {}
 
-    public User(String name, String surname, int age) {
+    public User(String name, String surname, int age, String password, List<GrantedAuthority> grantedAuthorities) {
         this.name = name;
         this.surname = surname;
         this.age = age;
+        this.grantedAuthorities = grantedAuthorities;
+        this.username = name+surname;
+        this.password = password;
     }
 
     public String getName() {
@@ -66,5 +86,53 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return grantedAuthorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

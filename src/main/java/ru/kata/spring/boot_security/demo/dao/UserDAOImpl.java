@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.dao;
 //Is it working?
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.User;
 
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
+
 
     private EntityManager entityManager;
 
@@ -46,5 +49,19 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getById(int id) {
         return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        //return entityManager.find(User.class, username);
+        for (int i = 1; i <= getAllUsers().size(); i++) {
+            User user = entityManager.find(User.class, i);
+            System.out.println(user.getUsername());
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        System.out.println("НЕ рбаотет");
+        return null;
     }
 }

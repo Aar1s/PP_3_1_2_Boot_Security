@@ -9,6 +9,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -52,12 +53,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User findUserByUsername(String username) {
+    public User findUserByUsername(String usernameToFind) {
+        //TypedQuery<User> query = (TypedQuery<User>) entityManager.createQuery("from User where username = (:usernameToFind)");
         //return entityManager.find(User.class, username);
         for (int i = 1; i <= getAllUsers().size(); i++) {
             User user = entityManager.find(User.class, i);
             System.out.println(user.getUsername());
-            if (user.getUsername().equals(username)) {
+            if (user.getUsername().equals(usernameToFind)) {
+                System.out.println(user.getRoles());
                 return user;
             }
         }

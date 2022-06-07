@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,18 +10,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-
     private UserDAO userDAO;
 
     @Autowired
-    public void setUserDAO(UserDAO userDAO) {
+    public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
@@ -55,5 +58,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userDAO.findUserByUsername(username);
+    }
+    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        String[] userRoles = user.getRoles().stream().map(Role::getName).toArray(String[]::new);
+        return AuthorityUtils.createAuthorityList(userRoles);
     }
 }

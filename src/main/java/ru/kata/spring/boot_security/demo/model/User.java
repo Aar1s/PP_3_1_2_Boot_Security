@@ -11,14 +11,14 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
 @Entity
 @Table(name = "Users")
 public class User implements UserDetails {
-    @ElementCollection
-    private List<GrantedAuthority> grantedAuthorities;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -34,14 +34,8 @@ public class User implements UserDetails {
     @Min(value = 0, message = "User's Age should be more than 0!")
     private int age;
 
-    @ManyToMany(cascade=CascadeType.MERGE)
-    @JoinTable(
-            name="users_roles",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
-    private List<Role> roles;
-
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     private String username;
     private String password;
@@ -55,11 +49,10 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String name, String surname, int age, String password, List<GrantedAuthority> grantedAuthorities) {
+    public User(String name, String surname, int age, String password) {
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.grantedAuthorities = grantedAuthorities;
         this.username = name+surname;
         this.password = password;
     }
@@ -104,16 +97,17 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
+        return getRoles();
     }
 
     @Override

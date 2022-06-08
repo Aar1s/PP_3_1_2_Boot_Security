@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -35,19 +34,76 @@ public class User implements UserDetails {
     @Min(value = 0, message = "User's Age should be more than 0!")
     private int age;
 
-    @ManyToMany (cascade = {
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id")
-    )
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @NotEmpty(message = "Email should not be empty!")
     private String username;
-    @NotEmpty(message = "Password should not be empty!")
     private String password;
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User() {}
+
+    public User(String name, String surname, int age, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.username = name+surname;
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = this.name+this.surname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -71,51 +127,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
-    }
-    @Override
-    public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        result = (result*PRIME) + (this.getName() == null ? 43 : this.getName().hashCode());
-        result = (result*PRIME) + this.getAge();
-        result = (result*PRIME) + this.getId();
-        result = (result*PRIME) + (this.getSurname() == null ? 43 : this.getSurname().hashCode());
-        result = (result*PRIME) + (this.getUsername() == null ? 43 : this.getUsername().hashCode());
-        for ( Role role : this.getRoles()) {
-            result = (result*PRIME) + role.getName().hashCode() >>> 5;
-        }
-        return result;
-    }
-
-    @Override public boolean equals(Object o) {
-        if (this.hashCode() != o.hashCode()) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (this.getId() != ((User) o).getId()) {
-            return false;
-        }
-        if (this.getRoles() != ((User) o).getRoles()) {
-            return false;
-        }
-        if (this.getAge() != ((User) o).getAge()) {
-            return false;
-        }
-        if (!this.getName().equals(((User)o).getName())) {
-            return false;
-        }
-        if (!this.getSurname().equals(((User)o).getSurname())) {
-            return false;
-        }
-        if (!this.getUsername().equals(((User)o).getUsername())) {
-            return false;
-        }
-        if (!this.getPassword().equals(((User)o).getPassword())) {
-            return false;
-        }
         return true;
     }
 }

@@ -5,7 +5,7 @@
     <title>User-data-page</title>
 </head>
 <body>
-    <div th:insert="~{logout :: header}"></div>
+    <div th:insert="~{users/logout :: header}"></div>
     <p th:text="'Your name is ' + ${user.getName()}"> </p>
     <p th:text="'Your surname is ' + ${user.getSurname()}"> </p>
     <p th:text="'You are ' + ${user.getAge()} + ' years old'"> </p>

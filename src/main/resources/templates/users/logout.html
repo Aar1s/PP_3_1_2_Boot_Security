@@ -5,8 +5,10 @@
     <title>title</title>
 </head>
 <body>
-<p th:fragment="header">
-    LOGOUT
-</p>
+<div th:fragment="header">
+<form th:method="GET" th:action="@{/logout/}">
+    <input type="submit" value="Logout"/>
+</form>
+</div>
 </body>
 </html>

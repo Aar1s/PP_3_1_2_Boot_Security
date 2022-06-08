@@ -13,7 +13,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/users")
 
 public class UserController {
 
@@ -24,10 +24,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String show(Model model, HttpServletRequest request) {
-        model.addAttribute("user", userService.loadUserByUsername(request.getRemoteUser()));
-        return "users/showUser";
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") int id, Model model, HttpServletRequest request) {
+        System.out.println(0);
+        System.out.println(request.getRemoteUser());
+        System.out.println(1);
+        System.out.println(request.getServletPath());
+        model.addAttribute("user", userService.getById(id));
+        return "users/show";
     }
 
 

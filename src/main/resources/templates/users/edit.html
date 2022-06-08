@@ -5,6 +5,7 @@
     <title>Edit User</title>
 </head>
 <body>
+
 <p>Edit User, please</p>
     <form th:method="PATCH" th:action="@{/admin/users/{id}(id=${user.getId()})}" th:object="${user}">
         <label for="name">Enter Name</label>

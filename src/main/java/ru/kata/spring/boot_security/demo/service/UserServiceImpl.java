@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -23,11 +24,15 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
+    private RoleDao roleDao;
 
     @Autowired
     public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
+
+    @Autowired
+    public void setRoleDAO(RoleDao roleDAO) {this.roleDao = roleDAO;}
 
     @Override
     public List<User> getAllUsers() {

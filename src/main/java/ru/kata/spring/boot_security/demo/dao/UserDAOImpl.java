@@ -55,8 +55,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User findUserByUsername(String usernameToFind) {
-        //TypedQuery<User> query = (TypedQuery<User>) entityManager.createQuery("from User where username = (:usernameToFind)");
-        //return entityManager.find(User.class, username);
         for (User user: getAllUsers()) {
             if (user.getUsername().equals(usernameToFind)){
                 return user;

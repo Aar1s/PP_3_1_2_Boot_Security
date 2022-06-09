@@ -8,20 +8,27 @@
     <title>Userlist Page</title>
 </head>
 <body>
-<div th:insert="~{users/logout :: header}"></div>
-<table border="1">
-    <tr>
-        <th>User's name</th>
-        <th>User's surname</th>
-        <th>User's age</th>
-    </tr>
-    <tr th:each ="user : ${users}">
-        <td th:utext="${user.getName()}">...</td>
-        <td th:utext="${user.getSurname()}">...</td>
-        <td th:utext="${user.getAge()}">...</td>
-        <td><a th:href="@{/admin/users/{id}(id=${user.getId()})}">Show User</a>...</td>
-    </tr>
-</table>
+<div th:insert="~{users/header :: header}"></div>
+<div class="container">
+    <div class="col-2">
+                <nav th:insert="~{users/sidebar :: sidebar}"></nav>
+    </div>
+    <div class="col-10">
+                <table border="1">
+                    <tr>
+                        <th>User's name</th>
+                        <th>User's surname</th>
+                        <th>User's age</th>
+                    </tr>
+                    <tr th:each ="currentUser : ${allUsers}">
+                        <td th:utext="${currentUser.getName()}">...</td>
+                        <td th:utext="${currentUser.getSurname()}">...</td>
+                        <td th:utext="${currentUser.getAge()}">...</td>
+                        <td><a th:href="@{/admin/users/{id}(id=${currentUser.getId()})}">Show User</a>...</td>
+                    </tr>
+                </table>
+    </div>
 <a href="new/">Create new user</a>
+</div>
 </body>
 </html>

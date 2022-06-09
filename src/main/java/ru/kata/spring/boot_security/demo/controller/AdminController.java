@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 @Controller
@@ -23,9 +25,10 @@ public class AdminController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
+    public String index(Model model, HttpServletRequest request) {
+        List<User> allUsers = userService.getAllUsers();
+        model.addAttribute("allUsers", allUsers);
+        model.addAttribute("user", userService.loadUserByUsername(request.getRemoteUser()));
         return "users/index";
     }
 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link href="CSS/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="col-10" th:fragment="AdminPanel">
+  <p class="h4">Admin panel</p>
+  <nav class="card" >
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Users Table</a>
+        </li>
+        <li>
+          <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#new" role="tab" aria-controls="profile" aria-selected="false">New User</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div class="container-fluid">
+            <div class="h5 bg-light">All Users</div>
+            <table class="table table-striped">
+              <thead class="text-black">
+              <tr>
+                <th scope="col">User's name</th>
+                <th scope="col">User's surname</th>
+                <th scope="col">User's age</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:scope="row" th:each ="currentUser : ${allUsers}">
+                <td th:scope="row" th:utext="${currentUser.getName()}">...</td>
+                <td th:scope="row" th:utext="${currentUser.getSurname()}">...</td>
+                <td th:scope="row" th:utext="${currentUser.getAge()}">...</td>
+                <td th:scope="row"><a class="btn btn-info text-white" th:href="@{/admin/users/{id}(id=${currentUser.getId()})}">Edit</a></td>
+                <td th:scope="row"><a class="btn btn-danger" th:href="@{/admin/users/{id}(id=${currentUser.getId()})}">Delete</a></td>
+
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="profile-tab" wfd-invisible="true">
+          <div class="container" th:insert="~{users/new :: newUser}">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </nav>
+
+</div>
+</body>
+</html>

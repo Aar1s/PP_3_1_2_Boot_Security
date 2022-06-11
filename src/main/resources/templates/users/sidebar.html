@@ -12,7 +12,9 @@
             <div class="col">
                 <div class="align-content-lg-center">
                     <nav class="nav" th:each ="role : ${user.getRoles()}">
-                        <a class="nav-link active" aria-current="page" href="#" th:text="${role.getAuthority()}"></a>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="admin/" th:text="${role.getAuthority()}"></a>
+                        </li>
                     </nav>
                 </div>
             </div>

@@ -8,7 +8,6 @@
     <title>Edit User</title>
 </head>
 <body>
-<div th:insert="~{users/logout :: header}"></div>
 <p>Edit User, please</p>
     <form th:method="PATCH" th:action="@{/admin/users/{id}(id=${user.getId()})}" th:object="${user}">
         <label for="name">Enter Name</label>

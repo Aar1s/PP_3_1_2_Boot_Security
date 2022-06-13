@@ -37,6 +37,7 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    @NotEmpty(message = "Username should not be empty!")
     private String username;
     private String password;
 
@@ -49,12 +50,13 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String name, String surname, int age, String password) {
+    public User(String name, String surname, int age, String username, String password, Set<Role> roles) {
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.username = name+surname;
+        this.username = username;
         this.password = password;
+        this.roles = roles;
     }
 
     public String getName() {
@@ -86,7 +88,7 @@ public class User implements UserDetails {
     }
 
     public void setUsername(String username) {
-        this.username = this.name+this.surname;
+        this.username = username;
     }
 
     public String getPassword() {

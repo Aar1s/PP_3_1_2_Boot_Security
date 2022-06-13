@@ -7,7 +7,47 @@
 
     <title>Create New User</title>
 </head>
-<body>
+<body th:fragment="newUser">
+
+<form th:method="POST" th:action="@{/admin/users}" th:object="${newU}" >
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" th:field="*{name}" aria-describedby="First Name" placeholder="Enter your first name">
+        <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">First name Error</div>
+    </div>
+    <div class="mb-3">
+        <label for="surname" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="surname" th:field="*{surname}" aria-describedby="Second Name">
+        <div id="lastNameHelp" class="form-text">Enter your last name</div>
+        <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Last name Error</div>
+
+    </div>
+    <div class="mb-3">
+        <label for="age" class="form-label">Age</label>
+        <input type="number" class="form-control" id="age" th:field="*{age}"  aria-describedby="Age">
+        <div id="ageHelp" class="form-text">Enter your age</div>
+        <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
+
+    </div>
+    <div class="mb-3">
+        <label for="username" class="form-label">Email</label>
+        <input type="email" class="form-control" id="username" th:field="*{username}"  aria-describedby="Age">
+        <div id="email help" class="form-text">Enter your Username</div>
+        <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" th:field="*{password}"  id="password">
+    </div>
+    <select class="form-select form-select-sm" aria-label="Small select" id="role" name="role" th:object="${role}">
+        <option selected="" disabled>Select Role</option>
+        <option value="ROLE_USER">User</option>
+        <option value="ROLE_ADMIN">Admin</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+<!--
 <form th:method="POST" th:action="@{/admin/users}" th:object="${user}" th:fragment="newUser">
     <label for="name">Enter Name</label>
     <input type="text" th:field="*{name}" id="name"/>
@@ -26,6 +66,6 @@
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
     <br/>
     <input type="submit" value="Create!"/>
-</form>
+</form> -->
 </body>
 </html>

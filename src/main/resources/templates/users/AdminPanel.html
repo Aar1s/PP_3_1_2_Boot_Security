@@ -36,20 +36,20 @@
               </tr>
               </thead>
               <tbody>
-              <tr th:scope="row" th:each ="currentUser : ${allUsers}">
-                <td th:scope="row" th:utext="${currentUser.getName()}">...</td>
-                <td th:scope="row" th:utext="${currentUser.getSurname()}">...</td>
-                <td th:scope="row" th:utext="${currentUser.getAge()}">...</td>
-                <td th:scope="row"><a class="btn btn-info text-white" th:href="@{/admin/users/{id}(id=${currentUser.getId()})}">Edit</a></td>
-                <td th:scope="row"><a class="btn btn-danger" th:href="@{/admin/users/{id}(id=${currentUser.getId()})}">Delete</a></td>
+              <tr th:scope="row" th:each ="user : ${allUsers}">
+                <td th:scope="row" th:utext="${user.getName()}">...</td>
+                <td th:scope="row" th:utext="${user.getSurname()}">...</td>
+                <td th:scope="row" th:utext="${user.getAge()}">...</td>
+                <td th:scope="row"><a class="btn btn-info text-white" th:href="@{/admin/users/{id}(id=${user.getId()})}">Edit</a></td>
+                <td th:scope="row"><a class="btn btn-danger" th:href="@{/admin/users/{id}(id=${user.getId()})}">Delete</a></td>
 
               </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="profile-tab" wfd-invisible="true">
-          <div class="container" th:insert="~{users/new :: newUser}">
+        <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="profile-tab">
+          <div  class="container" th:insert="~{users/new :: newUser}">
 
           </div>
         </div>

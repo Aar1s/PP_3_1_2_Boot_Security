@@ -9,9 +9,9 @@
 </head>
 <body th:fragment="userPanel">
     <div th:insert="~{users/header :: header}"></div>
-    <p th:text="'Your name is ' + ${user.getName()}"> </p>
-    <p th:text="'Your surname is ' + ${user.getSurname()}"> </p>
-    <p th:text="'You are ' + ${user.getAge()} + ' years old'"> </p>
-    <p th:text="'Your email is ' + ${user.getUsername()}"> </p>
+    <p th:text="'Your name is ' + ${activeUser.getName()}"> </p>
+    <p th:text="'Your surname is ' + ${activeUser.getSurname()}"> </p>
+    <p th:text="'You are ' + ${activeUser.getAge()} + ' years old'"> </p>
+    <p th:text="'Your email is ' + ${activeUser.getUsername()}"> </p>
 </body>
 </html>

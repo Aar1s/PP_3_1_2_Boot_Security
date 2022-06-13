@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.http.HttpRequest;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -28,7 +30,8 @@ public class AdminController {
     public String index(Model model, HttpServletRequest request) {
         List<User> allUsers = userService.getAllUsers();
         model.addAttribute("allUsers", allUsers);
-        model.addAttribute("user", userService.loadUserByUsername(request.getRemoteUser()));
+        model.addAttribute("activeUser", userService.loadUserByUsername(request.getRemoteUser()));
+        model.addAttribute("newU", new User());
         return "users/index";
     }
 
@@ -39,17 +42,24 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user, Model model) {
+    public String newUser(@ModelAttribute("newU") User newU, Model model) {
         return "users/new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+    public String create(@ModelAttribute("newU") @Valid User newU,  @ModelAttribute("role") String role, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("Error occurred!");
             return "users/new";
         }
-        userService.add(user);
+        Set<Role> roles;
+        if (role.equals("ROLE_ADMIN")) {
+            roles = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
+        } else {
+            roles = Set.of(new Role(1L, "ROLE_USER"));
+        }
+        newU.setRoles(roles);
+        userService.add(newU);
 
         return "redirect:/admin/users/";
     }

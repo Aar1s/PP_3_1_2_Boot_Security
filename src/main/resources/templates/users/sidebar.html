@@ -11,7 +11,7 @@
         <div th:fragment="sidebar" class="sidebar container-fluid bg-white text-center" >
             <div class="col">
                 <div class="align-content-lg-center">
-                    <nav class="nav" th:each ="role : ${user.getRoles()}">
+                    <nav class="nav" th:each ="role : ${activeUser.getRoles()}">
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="admin/" th:text="${role.getAuthority()}"></a>
                         </li>

@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
   <link href="CSS/styles.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="col-10" th:fragment="AdminPanel">
@@ -25,6 +26,8 @@
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="container-fluid">
             <div class="h5 bg-light">All Users</div>
+            <h1 id="test"> Here be testing</h1>
+
             <table class="table table-striped">
               <thead class="text-black">
               <tr>
@@ -36,20 +39,41 @@
               </tr>
               </thead>
               <tbody>
-              <tr th:scope="row" th:each ="user : ${allUsers}">
-                <td th:scope="row" th:utext="${user.getName()}">...</td>
+              <tr id ="userData" th:scope="row" th:each ="user : ${allUsers}">
+                <td  th:scope="row" th:utext="${user.getName()}">...</td>
                 <td th:scope="row" th:utext="${user.getSurname()}">...</td>
                 <td th:scope="row" th:utext="${user.getAge()}">...</td>
                 <td th:scope="row"><a class="btn btn-info text-white" th:href="@{/admin/users/{id}(id=${user.getId()})}">Edit</a></td>
-                <td th:scope="row"><a class="btn btn-danger" th:href="@{/admin/users/{id}(id=${user.getId()})}">Delete</a></td>
+                <td th:scope="row">
+                  <button th:method="GET" th:id="'btn' + ${user.getId()}" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" th:utext="${user.getName()}">Delete</button>
+                  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Delete?</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
 
+                          <!-- Here be Userdata -->
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <p th:utext="${user.getName()}">Not working</p>
+                          <a  type="button" class="btn btn-danger" data-bs-dismiss="modal" th:method="DELETE" th:href="@{/admin/users/{id}(id=${user.getId()})}">Delete user</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
               </tr>
               </tbody>
             </table>
           </div>
         </div>
         <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="profile-tab">
-          <div  class="container" th:insert="~{users/new :: newUser}">
+          <div  class="container" th:include="~{users/new :: newUser}">
 
           </div>
         </div>
@@ -59,5 +83,12 @@
   </nav>
 
 </div>
+<script>
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
 </body>
 </html>

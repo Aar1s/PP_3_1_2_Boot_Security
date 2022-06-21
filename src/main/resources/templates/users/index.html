@@ -37,13 +37,48 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Заголовок модального окна</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">User delete window</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
-                    ...
+                    <form>
+                    <div class="form-group">
+                        <label for="id">ID</label>
+                        <input type="number" class="form-control" id="id" aria-describedby="nameHelp">
+                        <small id="name" class="form-text text-muted">User's first name</small>
+                      </div>
+                      <div class="form-group">
+                        <label for="name">First name</label>
+                        <input type="text" class="form-control" id="name" aria-describedby="nameHelp">
+                        <small id="name" class="form-text text-muted">User's first name</small>
+                      </div>
+                      <div class="form-group">
+                        <label for="surname">Surname</label>
+                        <input type="text" class="form-control" id="surname" aria-describedby="surnameHelp">
+                        <small id="name" class="form-text text-muted">User's last name</small>
+                      </div>
+                      <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" class="form-control" id="age" aria-describedby="surnameHelp">
+                        <small id="age" class="form-text text-muted">User's age</small>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">User's email and login</small>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Role</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="roleHelp">
+                        <small id="roleHelp" class="form-text text-muted">User roles</small>
+                      </div>
+                      <select class="form-select" multiple aria-label="multiple select example">
+                        <option selected>Admin</option>
+                        <option value="1">User</option>
+                      </select>
+                    </form>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-danger">Delete User</button>

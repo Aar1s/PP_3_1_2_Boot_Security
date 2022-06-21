@@ -47,7 +47,7 @@
                 <td th:scope="row" th:utext="${user.getAge()}">...</td>
                 <td th:scope="row"><a class="btn btn-info text-white" th:href="@{/admin/users/{id}(id=${user.getId()})}">Edit</a></td>
                 <td th:scope="row">
-                  <button type="button" class="btn btn-danger" onclick="showModal()" data-bs-toggle="modal" data-bs-target="#deleteModal${status.index}" th:utext="deleteModal + ${status.index}">Delete</button>
+                  <button type="button" class="btn btn-danger" onclick="showModal()" data-bs-toggle="modal" data-bs-target="#deleteModal" th:text="deleteModal+${user.getId()}">>Delete</button>
                 </td>
               </tr>
               </tbody>

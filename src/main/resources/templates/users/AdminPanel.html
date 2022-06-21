@@ -41,13 +41,13 @@
               </tr>
               </thead>
               <tbody>
-              <tr id ="userData" th:scope="row" th:each ="user, status : ${allUsers}">
+              <tr th:scope="row" th:each ="user, status : ${allUsers}">
                 <td  th:scope="row" th:utext="${user.getName()}">...</td>
                 <td th:scope="row" th:utext="${user.getSurname()}">...</td>
                 <td th:scope="row" th:utext="${user.getAge()}">...</td>
                 <td th:scope="row"><a class="btn btn-info text-white" th:href="@{/admin/users/{id}(id=${user.getId()})}">Edit</a></td>
                 <td th:scope="row">
-                  <button type="button" class="btn btn-danger" onclick="showModal()" data-bs-toggle="modal" data-bs-target="#deleteModal+${user.getId()}" th:text="deleteModal+${user.getId()}">Delete</button>
+                  <button type="button" class="btn btn-danger" onclick="showModal()" data-bs-toggle="modal" th:data-bs-target="'#deleteModal'+${user.getId()}">Delete</button>
                 </td>
               </tr>
               </tbody>

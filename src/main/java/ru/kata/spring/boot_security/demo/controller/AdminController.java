@@ -32,6 +32,7 @@ public class AdminController {
         model.addAttribute("allUsers", allUsers);
         model.addAttribute("activeUser", userService.loadUserByUsername(request.getRemoteUser()));
         model.addAttribute("newU", new User());
+        model.addAttribute("test", "teasdasdst");
         return "users/index";
     }
 

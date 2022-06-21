@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link href="CSS/styles.css" rel="stylesheet">
-
-
-    <title>Userlist Page</title>
+    <title>Main Page</title>
 </head>
 
 <body class="bg-light">
@@ -15,7 +13,7 @@
 <header th:insert="~{users/header :: header}"></header>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-2" th:insert="~{users/sidebar :: sidebar}"></div>
+        <div class="col-2" th:include="~{users/sidebar :: sidebar}"></div>
 
         <div class="col-10" th:insert="~{users/AdminPanel :: AdminPanel}">
         </div>
@@ -23,29 +21,34 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-<script>
+<script th:inline="javascript">
+    //let allUsers = [[${activeUser}]];
+
+
+
     let modalWrap = null;
     if (modalWrap !== null) {
         modalWrap.remove();
     }
-
-
     const showModal = () => {
+        var test = [[${test}]];
         modalWrap = document.createElement('div');
+
         modalWrap.innerHTML = `
             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">User delete window</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body" >
                     <form>
-                    <div class="form-group">
-                        <label for="id">ID</label>
+                    ${test}
+                    <div class="form-group" >
+                        <label for="id" th:text="${test}">ID</label>
                         <input type="number" class="form-control" id="id" aria-describedby="nameHelp">
                         <small id="name" class="form-text text-muted">User's first name</small>
                       </div>
@@ -95,6 +98,7 @@
         modal.show();
 
     }
+
 </script>
 </body>
 </html>

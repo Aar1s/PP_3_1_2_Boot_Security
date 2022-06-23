@@ -46,8 +46,119 @@
                 <td th:scope="row" th:utext="${user.getSurname()}">...</td>
                 <td th:scope="row" th:utext="${user.getAge()}">...</td>
                 <td th:scope="row"><a class="btn btn-info text-white" th:href="@{/admin/users/{id}(id=${user.getId()})}">Edit</a></td>
-                <td th:scope="row">
-                  <button type="button" class="btn btn-danger" th:onclick="'showModal(' + ${user.getId()} + ')'" data-bs-toggle="modal" th:data-bs-target="'#deleteModal-'+${user.getId()}">Delete</button>
+                <td th:scope="row"><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#editModal' + user.id}">
+                  edit
+                </button>
+
+                <!-- Модальное окно -->
+                <div class="modal fade" th:each="user : ${allUsers}"
+                     th:attr="id=${'editModal' + user.id}" tabindex="-1"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Закрыть"></button>
+                      </div>
+                      <div class="modal-body">
+
+                        <form action="#" th:method="PATCH" th:object="${getUser}"
+                              th:action="@{/admin/users/{id}(id=${user.getId()})}">
+
+                          <div class="form-group text-center row justify-content-center align-items-center">
+                            <div class="col-sm-6">
+                              <label for="userId" class="center-block"><span
+                                      class="font-weight-bold"><strong>ID</strong></span></label>
+                              <input type="text"
+                                     class="form-control collection-ville text-center"
+                                     id="userId" name="id" th:value="${user.getId()}"
+                                     th:name="id" readonly="readonly">
+                            </div>
+                          </div>
+
+                          <div class="form-group text-center row justify-content-center align-items-center">
+                            <div class="col-sm-6">
+                              <label for="userName2" class="center-block"><span
+                                      class="font-weight-bold"><strong>First name</strong></span></label>
+                              <input type="text"
+                                     class="form-control collection-ville text-center"
+                                     id="userName2" name="name"
+                                     th:value="${user.getName()}" th:name="name">
+                            </div>
+                          </div>
+
+                          <div class="form-group text-center row justify-content-center align-items-center">
+                            <div class="col-sm-6">
+                              <label for="userName3" class="center-block"><span
+                                      class="font-weight-bold"><strong>Last name</strong></span></label>
+                              <input type="text"
+                                     class="form-control collection-ville text-center"
+                                     id="userName3" name="lastName"
+                                     th:value="${user.getSurname()}" th:name="surname">
+                            </div>
+                          </div>
+
+                          <div class="form-group text-center row justify-content-center align-items-center">
+                            <div class="col-sm-6">
+                              <label for="userAge" class="center-block"><span
+                                      class="font-weight-bold"><strong>Age</strong></span></label>
+                              <input type="number"
+                                     class="form-control collection-ville text-center"
+                                     id="userAge" name="age"
+                                     th:value="${user.getAge()}" th:name="age">
+                            </div>
+                          </div>
+
+                          <div class="form-group text-center row justify-content-center align-items-center">
+                            <div class="col-sm-6">
+                              <label for="userEmail" class="center-block"><span
+                                      class="font-weight-bold"><strong>Email</strong></span></label>
+                              <input type="text"
+                                     class="form-control collection-ville text-center"
+                                     id="userEmail" name="email"
+                                     th:value="${user.getUsername()}" th:name="username">
+                            </div>
+                          </div>
+
+                          <div class="form-group text-center row justify-content-center align-items-center">
+                            <div class="col-sm-6">
+                              <label for="userPassword" class="center-block"><span
+                                      class="font-weight-bold"><strong>Password</strong></span></label>
+                              <input type="text"
+                                     class="form-control collection-ville text-center"
+                                     id="userPassword" name="password"
+                                     th:name="password">
+                            </div>
+                          </div>
+
+
+                          <div class="form-group text-center row justify-content-center align-items-center">
+                            <div class="col-sm-6">
+                              <label for="exampleFormControlSelect2"><b>Role</b></label>
+                              <select multiple class="form-control form-control-sm" id="exampleFormControlSelect2" size="2" th:object="${role}">
+                                <option value="ROLE_ADMIN">ADMIN</option>
+                                <option value="ROLE_ADMIN" selected>USER</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">Edit
+                            </button>
+                          </div>
+                        </form>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <td>
+                  <button type="button" class="btn btn-danger" th:onclick="'showDeleteModal(' + ${user.getId()} + ')'" data-bs-toggle="modal" th:data-bs-target="'#deleteModal-'+${user.getId()}">Delete</button>
                 </td>
               </tr>
               </tbody>

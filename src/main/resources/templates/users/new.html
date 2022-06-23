@@ -40,8 +40,7 @@
         <label for="password" class="form-label">Password</label>
         <input type="password" class="form-control" th:field="*{password}"  id="password">
     </div>
-    <select class="form-select form-select-sm" aria-label="Small select" id="role" name="role" th:object="${role}">
-        <option selected="" disabled>Select Role</option>
+    <select class="form-select form-select-sm" aria-label="Small select" label="Select Roles" id="role" name="role" size="2" th:object="${role}">
         <option value="ROLE_USER">User</option>
         <option value="ROLE_ADMIN">Admin</option>
     </select>

@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,8 +39,8 @@ public class AdminController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.getById(id));
-        return "users/showAdmin";
+        model.addAttribute("getUser", userService.getById(id));
+        return "users/index";
     }
 
     @GetMapping("/new")
@@ -48,7 +49,8 @@ public class AdminController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("newU") @Valid User newU,  @ModelAttribute("role") String role, BindingResult bindingResult) {
+    public String create(@ModelAttribute("newU") @Valid User newU,  @ModelAttribute("role") String role,
+                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("Error occurred!");
             return "users/new";
@@ -73,11 +75,22 @@ public class AdminController {
 
 
     @PatchMapping ("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user,
+    public String update(@ModelAttribute("user") @Valid User user, @ModelAttribute("role") String role,
                          BindingResult bindingResult, @PathVariable int id) {
         if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getModel());
+            System.out.println("wrong");
             return "users/edit";
         }
+        Set<Role> roles;
+        if (role.equals("ROLE_ADMIN")) {
+            roles = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
+        } else {
+            roles = Set.of(new Role(1L, "ROLE_USER"));
+        }
+        user.setRoles(roles);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.edit(user, id);
         return "redirect:/admin/users/";
     }

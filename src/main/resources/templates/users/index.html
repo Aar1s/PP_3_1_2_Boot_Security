@@ -10,7 +10,33 @@
 
 <body class="bg-light">
 
-<header th:insert="~{users/header :: header}"></header>
+<header>
+    <div th:fragment="header">
+        <div class="header">
+            <div class="container-fluid">
+                <div class="row bg-dark">
+                    <div class="col-4">
+                        <div class="text-white mt-3">
+                            <th:block th:text="${activeUser.getUsername()}"></th:block>
+                            <th:block> with roles:</th:block>
+                            <th:block th:each="role : ${activeUser.getRoles()}">
+                                <th:block th:text="${role.getName}"></th:block>
+                            </th:block>
+
+                        </div>
+                    </div>
+                    <div class="col-7"></div>
+                    <div class="col-1">
+                        <div class="btn">
+                            <a class="btn btn-outline-light btn-lg" href="/logout/" role="button">Logout</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 <div class="container-fluid">
     <div class="row">
         <div class="col-2" th:include="~{users/sidebar :: sidebar}"></div>
@@ -28,7 +54,7 @@
     if (modalWrap !== null) {
         modalWrap.remove();
     }
-    const showModal = (id) => {
+    const showDeleteModal = (id) => {
 
         modalWrap = document.createElement('div');
         var allUsers = Array.from([[${allUsers}]]);

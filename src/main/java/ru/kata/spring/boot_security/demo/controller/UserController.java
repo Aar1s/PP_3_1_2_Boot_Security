@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("/")
     public String show(Model model, HttpServletRequest request) {
-        model.addAttribute("activeUser", userService.loadUserByUsername(request.getRemoteUser()));
+        model.addAttribute("user", userService.loadUserByUsername(request.getRemoteUser()));
         return "users/showUser";
     }
 

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/admin/users")
+@RequestMapping("/admin")
 
 public class AdminController {
 
@@ -64,7 +64,7 @@ public class AdminController {
         newU.setRoles(roles);
         userService.add(newU);
 
-        return "redirect:/admin/users/";
+        return "redirect:/admin/";
     }
 
     @GetMapping("/{id}/edit")
@@ -82,8 +82,6 @@ public class AdminController {
             System.out.println("wrong");
             return "users/edit";
         }
-        System.out.println(role);
-        System.out.println("CHECK-CHECK");
         Set<Role> rolesToChange;
         if (role.equals("ROLE_ADMIN")) {
             rolesToChange = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
@@ -94,12 +92,12 @@ public class AdminController {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.edit(user, id);
-        return "redirect:/admin/users/";
+        return "redirect:/admin/";
     }
 
     @PostMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
         userService.delete(id);
-        return "redirect:/admin/users/";
+        return "redirect:/admin/";
     }
 }

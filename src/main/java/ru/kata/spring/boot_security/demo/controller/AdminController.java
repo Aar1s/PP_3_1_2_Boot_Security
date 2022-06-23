@@ -82,13 +82,15 @@ public class AdminController {
             System.out.println("wrong");
             return "users/edit";
         }
-        Set<Role> roles;
+        System.out.println(role);
+        System.out.println("CHECK-CHECK");
+        Set<Role> rolesToChange;
         if (role.equals("ROLE_ADMIN")) {
-            roles = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
+            rolesToChange = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
         } else {
-            roles = Set.of(new Role(1L, "ROLE_USER"));
+            rolesToChange = Set.of(new Role(1L, "ROLE_USER"));
         }
-        user.setRoles(roles);
+        user.setRoles(rolesToChange);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.edit(user, id);

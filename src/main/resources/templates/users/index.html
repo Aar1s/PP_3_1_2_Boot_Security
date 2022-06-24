@@ -40,7 +40,7 @@
 </header>
 <div class="row">
     <!-- Sidebar -->
-    <div class="col-2 sidebar container-fluid bg-white text-center">
+    <div class="col-2 sidebar container-fluid bg-white text-center" style="height:100vh">
         <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active" href="/admin/" role="tab"
                aria-controls="v-pills-home" aria-selected="true">Admin</a>
@@ -222,47 +222,49 @@
                                 <div class="col-4"></div>
                                 <div class="col-4">
                                     <form class="text-center" th:method="POST" th:action="@{/admin}" th:object="${newU}" >
-                                        <div class="form-group col-6 ">
-                                            <label for="name" class="font-weight-bold">Name</label>
+                                        <div class="form-group col-6 mx-auto">
+                                            <strong><label for="name" class="font-weight-bold">Name</label></strong>
                                             <input type="text" class="form-control" id="name" th:field="*{name}" aria-describedby="First Name" placeholder="Enter your first name">
                                             <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">First name Error</div>
                                         </div>
 
-                                        <div class="form-group col-6 text-center">
-                                            <label for="surname" class="font-weight-bold">Last Name</label>
+                                        <div class="form-group col-6  mx-auto text-center">
+                                            <strong><label for="surname" class="font-weight-bold">Last Name</label></strong>
                                             <input type="text" class="form-control" id="surname" th:field="*{surname}" aria-describedby="Second Name" placeholder="Enter your last name">
                                             <div id="lastNameHelp" class="form-text"></div>
                                             <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Last name Error</div>
 
                                         </div>
-                                        <div class="form-group col-6 text-center">
-                                            <label for="age" class="font-weight-bold">Age</label>
+                                        <div class="form-group col-6  mx-auto text-center">
+                                            <strong><label for="age" class="font-weight-bold">Age</label></strong>
                                             <input type="number" class="form-control" id="age" th:field="*{age}"  aria-describedby="Age" placeholder="Enter your age">
                                             <div id="ageHelp" class="form-text"></div>
                                             <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
 
                                         </div>
-                                        <div class="form-group col-6 text-center">
-                                            <label for="username" class="font-weight-bold">Email</label>
+                                        <div class="form-group col-6  mx-auto text-center">
+                                            <strong><label for="username" class="font-weight-bold">Email</label></strong>
                                             <input type="email" class="form-control" id="username" th:field="*{username}"  aria-describedby="email" placeholder="Enter your email">
                                             <div id="email help" class="form-text"></div>
                                             <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
 
                                         </div>
-                                        <div class="form-group col-6 text-center">
-                                            <label for="password" class="font-weight-bold">Password</label>
+                                        <div class="form-group col-6  mx-auto text-center">
+                                            <strong><label for="password" class="font-weight-bold">Password</label></strong>
                                             <input type="password" class="form-control" th:field="*{password}"  id="password" placeholder="Enter your password">
                                         </div>
-                                        <div class="form-group col-6 text-center">
-                                            <label for="role" class="font-weight-bold">Role </label>
-                                        <select class="form-select form-select-sm" aria-label="Small select" label="Select Roles" id="role" name="role" size="2" th:object="${role}">
-                                            <option value="ROLE_USER">User</option>
+                                        <div class="form-group col-6  mx-auto text-center">
+                                            <strong><label for="role" class="font-weight-bold">Role </label></strong>
+                                        <select class="form-select form-select-sm" aria-label="Small select" id="role" name="role" size="2" th:object="${role}">
+                                            <option selected value="ROLE_USER">User</option>
                                             <option value="ROLE_ADMIN">Admin</option>
                                         </select>
                                         </div>
-                                        <button type="submit" class="btn btn-success">Add new user</button>
+                                        <div class="mx-auto pt-3">
+                                            <button type="submit" class="btn btn-success text-center">Add new user</button>
                                         </div>
                                 </form>
+                                </div>
                                 <div class="col-4"></div>
                             </div>
                         </div>

@@ -2,21 +2,25 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+        //не совсем понял, что подразумевается под сэттить пароли и роли в слое бизнес логики
     private final UserDAO userDAO;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -42,7 +46,6 @@ public class UserServiceImpl implements UserService {
         }
         user.setRoles(roles);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-
         userDAO.add(user);
     }
 
@@ -62,6 +65,8 @@ public class UserServiceImpl implements UserService {
             rolesToChange = Set.of(new Role(1L, "ROLE_USER"));
         }
         user.setRoles(rolesToChange);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDAO.edit(user, id);
     }
 

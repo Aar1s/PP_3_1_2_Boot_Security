@@ -55,8 +55,8 @@ public class AdminController {
             System.out.println("Error occurred!");
             return "users/new";
         }
-
         userService.add(newU, role);
+
         return "redirect:/admin/";
     }
 
@@ -72,6 +72,7 @@ public class AdminController {
                          BindingResult bindingResult, @PathVariable int id) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getModel());
+            System.out.println("wrong");
             return "users/edit";
         }
         userService.edit(user, id, role);

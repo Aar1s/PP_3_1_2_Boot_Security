@@ -55,15 +55,8 @@ public class AdminController {
             System.out.println("Error occurred!");
             return "users/new";
         }
-        Set<Role> roles;
-        if (role.equals("ROLE_ADMIN")) {
-            roles = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
-        } else {
-            roles = Set.of(new Role(1L, "ROLE_USER"));
-        }
-        newU.setRoles(roles);
-        userService.add(newU);
 
+        userService.add(newU, role);
         return "redirect:/admin/";
     }
 
@@ -79,19 +72,9 @@ public class AdminController {
                          BindingResult bindingResult, @PathVariable int id) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getModel());
-            System.out.println("wrong");
             return "users/edit";
         }
-        Set<Role> rolesToChange;
-        if (role.equals("ROLE_ADMIN")) {
-            rolesToChange = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
-        } else {
-            rolesToChange = Set.of(new Role(1L, "ROLE_USER"));
-        }
-        user.setRoles(rolesToChange);
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userService.edit(user, id);
+        userService.edit(user, id, role);
         return "redirect:/admin/";
     }
 

@@ -20,7 +20,6 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
-        //не совсем понял, что подразумевается под сэттить пароли и роли в слое бизнес логики
     private final UserDAO userDAO;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

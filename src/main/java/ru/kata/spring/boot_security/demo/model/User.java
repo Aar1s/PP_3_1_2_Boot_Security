@@ -34,7 +34,14 @@ public class User implements UserDetails {
     @Min(value = 0, message = "User's Age should be more than 0!")
     private int age;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany (cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id")
+    )
     private Set<Role> roles;
 
     @NotEmpty(message = "Email should not be empty!")

@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void add(User user, String role) {
+    public void addOld(User user, String role) {
         Set<Role> roles;
         if (role.equals("ROLE_ADMIN")) {
             roles = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
@@ -51,13 +51,20 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    public void add(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userDAO.add(user);
+    }
+
+    @Transactional
+    @Override
     public void delete(int id) {
         userDAO.delete(id);
     }
 
     @Transactional
     @Override
-    public void edit(User user, int id, String role) {
+    public void editOld(User user, int id, String role) {
         Set<Role> rolesToChange;
         if (role.equals("ROLE_ADMIN")) {
             rolesToChange = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
@@ -67,7 +74,14 @@ public class UserServiceImpl implements UserService {
         user.setRoles(rolesToChange);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDAO.edit(user, id);
+        userDAO.editOld(user, id);
+    }
+
+    @Transactional
+    @Override
+    public void edit(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userDAO.edit(user);
     }
 
     @Override

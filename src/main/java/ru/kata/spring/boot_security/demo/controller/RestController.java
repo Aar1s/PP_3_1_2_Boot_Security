@@ -8,12 +8,12 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@RestController
+@org.springframework.web.bind.annotation.RestController
 @RequestMapping("/test/api")
-public class TestController {
+public class RestController {
     UserService userService;
 
-    public TestController(UserService userService) {
+    public RestController(UserService userService) {
         this.userService = userService;
     }
 
@@ -26,9 +26,23 @@ public class TestController {
     public User getById(@PathVariable("id") int id) {
         return userService.getById(id);
     }
+
     @PostMapping("/")
     public User addNewUser(@RequestBody User user) {
-        userService.add(user, "ROLE_ADMIN");
+        //User should have no authorities and ID!
+        userService.add(user);
         return user;
+    }
+
+    @PutMapping("/")
+    public User editUser(@RequestBody User user) {
+        userService.edit(user);
+        return user;
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser( @PathVariable("id") int id) {
+        userService.delete(id);
+        return "User with ID " + id + " was deleted!";
     }
 }

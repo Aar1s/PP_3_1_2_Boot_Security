@@ -55,7 +55,7 @@ public class AdminController {
             System.out.println("Error occurred!");
             return "users/new";
         }
-        userService.add(newU, role);
+        userService.addOld(newU, role);
 
         return "redirect:/admin/";
     }
@@ -75,7 +75,7 @@ public class AdminController {
             System.out.println("wrong");
             return "users/edit";
         }
-        userService.edit(user, id, role);
+        userService.editOld(user, id, role);
         return "redirect:/admin/";
     }
 

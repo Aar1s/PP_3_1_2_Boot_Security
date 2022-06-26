@@ -44,7 +44,7 @@
     <!-- Main Panel -->
     <div id="MainPanel" class="col-10">
         <h2 id="destructible"> This has to be destroyed</h2>
-        <button id="buttonToDestroy" class="btn btn-danger">Button to destroy</button>
+        <button id="buttonToCreateAndDestroy" class="btn btn-danger">Button to destroy</button>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
@@ -53,14 +53,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 })
 
-document.querySelector('#buttonToDestroy').onclick = function () {
-    if (document.querySelector('#destructible')) {
-        document.querySelector('#destructible').remove();
+document.querySelector('#buttonToCreateAndDestroy').onclick = function () {
+    if (document.querySelector("#destructible")) {
+        document.querySelector("#destructible").remove();
+        document.querySelector("#buttonToCreateAndDestroy").textContent = "Button to create";
     } else {
-        var newH2 = document.createElement('div');
-        //querySelector('#MainPanel').
-        newH2.innerHTML= `<h2>This Was Created Anew!</h2>`;
-        document.body.append((newH2));
+        document.querySelector("#buttonToCreateAndDestroy").textContent = "Button to destroy";
+        let divToChange = document.querySelector("#MainPanel")
+        let newElem = document.createElement("h2");
+        newElem.setAttribute("id","destructible");
+        const text = document.createTextNode( "This Was Created Anew!");
+        newElem.appendChild(text);
+        divToChange.appendChild(newElem);
     }
 }
 </script>

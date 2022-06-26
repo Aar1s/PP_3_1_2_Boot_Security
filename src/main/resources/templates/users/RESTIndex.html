@@ -328,6 +328,19 @@
         editButton.innerHTML = `Edit`;
         return editButton;
     }
+
+    function createDeleteButton(user=defaultUser) {
+        let editButton = document.createElement("button");
+        editButton.setAttribute("type","button");
+        editButton.setAttribute("class","btn btn-danger");
+        editButton.setAttribute("data-bs-toggle","modal");
+        editButton.setAttribute("id","editButtonId" + user.id);
+        editButton.setAttribute("data-bs-target", "#deleteModal" + user.id)
+        editButton.setAttribute("onclick", "showDeleteModal(" + user.id + ")")
+        editButton.innerHTML = `Delete`;
+        return editButton;
+    }
+
     function createMainPanel(activeUser=defaultUser) {
         let mainPanel = document.createElement("div");
         mainPanel.setAttribute("class", "col-10")
@@ -337,21 +350,52 @@
             // creates a table row
             const row = document.createElement("tr");
 
-            for (let j = 0; j < 6; j++) {
-                // Create a <td> element and a text node, make the text
-                // node the contents of the <td>, and put the <td> at
-                // the end of the table row
-                const cell = document.createElement("td");
-                const cellText = document.createTextNode(manyDefaultUsers[i]);
-                cell.appendChild(cellText);
-                row.appendChild(cell);
-            }
+            let cell = document.createElement("td");
+            let cellText = document.createTextNode(manyDefaultUsers[i].id);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            cellText = document.createTextNode(manyDefaultUsers[i].name);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            cellellText = document.createTextNode(manyDefaultUsers[i].surname);
+            cell.appendChild(cellellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            cellText = document.createTextNode(manyDefaultUsers[i].age);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            cellText = document.createTextNode(manyDefaultUsers[i].username);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            let roles;
+            if (manyDefaultUsers[i].roles.length > 1) {
+                roles = "ADMIN, USER";
+            } else roles = "USER";
+            cellText = document.createTextNode(roles);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
             const editButtonCell = document.createElement("td");
             let editButton = createEditButton(manyDefaultUsers[i]);
             editButtonCell.appendChild(editButton);
             row.appendChild(editButtonCell);
+
+            const deleteButtonCell = document.createElement("td");
+            let deleteButton = createDeleteButton(manyDefaultUsers[i]);
+            deleteButtonCell.appendChild(deleteButton);
+            row.appendChild(deleteButtonCell);
             tblBody.appendChild(row);
         }
+
         mainPanel.innerHTML = `
             <div class="col-10">
                 <div class="h1 p-3">Admin panel</div>
@@ -394,8 +438,8 @@
                             <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="profile-tab">
                                 <div  class="container-fluid">
                                     <div class="row text-center" >
-                                        <div class="col-4"></div>
-                                        <div class="col-4">
+                                        <div class="col-2"></div>
+                                        <div class="col-8">
                                             <form class="text-center">
                                                 <div class="form-group col-6 mx-auto">
                                                     <strong><label for="name" class="font-weight-bold">Name</label></strong>
@@ -436,7 +480,7 @@
                                                 </div>
                                         </form>
                                         </div>
-                                        <div class="col-4"></div>
+                                        <div class="col-2"></div>
                                     </div>
                                 </div>
                             </div>

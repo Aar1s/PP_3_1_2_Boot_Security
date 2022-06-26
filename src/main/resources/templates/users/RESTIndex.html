@@ -322,7 +322,11 @@
         editButton.setAttribute("type","button");
         editButton.setAttribute("class","btn btn-info text-white");
         editButton.setAttribute("data-bs-toggle","modal");
-        editButton.setAttribute("id","")
+        editButton.setAttribute("id","editButtonId" + user.id);
+        editButton.setAttribute("data-bs-target", "#deleteModal" + user.id)
+        editButton.setAttribute("onclick", "showDeleteModal(" + user.id + ")")
+        editButton.innerHTML = `Edit`;
+        return editButton;
     }
     function createMainPanel(activeUser=defaultUser) {
         let mainPanel = document.createElement("div");
@@ -342,7 +346,10 @@
                 cell.appendChild(cellText);
                 row.appendChild(cell);
             }
-
+            const editButtonCell = document.createElement("td");
+            let editButton = createEditButton(manyDefaultUsers[i]);
+            editButtonCell.appendChild(editButton);
+            row.appendChild(editButtonCell);
             tblBody.appendChild(row);
         }
         mainPanel.innerHTML = `
@@ -380,6 +387,7 @@
                                                 <th scope="col">Delete</th>
                                             </tr>
                                         </thead>
+                                    </table>
 
                                 </div>
                             </div>

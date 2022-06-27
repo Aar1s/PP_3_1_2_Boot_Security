@@ -7,6 +7,8 @@
     <title>KATA-Users</title>
 </head>
 <body class="bg-light">
+<button id="btn23" onclick="bigButt()">BIG BASDASD</button>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <script type="text/javascript">
     const defaultUser = {
@@ -341,43 +343,43 @@
         return editButton;
     }
 
-    function createMainPanel(activeUser=defaultUser) {
+    function createMainPanel(fetchedUsers=manyDefaultUsers) {
         let mainPanel = document.createElement("div");
         mainPanel.setAttribute("class", "col-10")
         mainPanel.appendChild(document.createElement("div"))
         const tblBody = document.createElement("tbody");
-        for (let i = 0; i < manyDefaultUsers.length; i++) {
+        for (let i = 0; i < fetchedUsers.length; i++) {
             // creates a table row
             const row = document.createElement("tr");
 
             let cell = document.createElement("td");
-            let cellText = document.createTextNode(manyDefaultUsers[i].id);
+            let cellText = document.createTextNode(fetchedUsers[i].id);
             cell.appendChild(cellText);
             row.appendChild(cell);
 
             cell = document.createElement("td");
-            cellText = document.createTextNode(manyDefaultUsers[i].name);
+            cellText = document.createTextNode(fetchedUsers[i].name);
             cell.appendChild(cellText);
             row.appendChild(cell);
 
             cell = document.createElement("td");
-            cellellText = document.createTextNode(manyDefaultUsers[i].surname);
-            cell.appendChild(cellellText);
-            row.appendChild(cell);
-
-            cell = document.createElement("td");
-            cellText = document.createTextNode(manyDefaultUsers[i].age);
+            cellText = document.createTextNode(fetchedUsers[i].surname);
             cell.appendChild(cellText);
             row.appendChild(cell);
 
             cell = document.createElement("td");
-            cellText = document.createTextNode(manyDefaultUsers[i].username);
+            cellText = document.createTextNode(fetchedUsers[i].age);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            cellText = document.createTextNode(fetchedUsers[i].username);
             cell.appendChild(cellText);
             row.appendChild(cell);
 
             cell = document.createElement("td");
             let roles;
-            if (manyDefaultUsers[i].roles.length > 1) {
+            if (fetchedUsers[i].roles.length > 1) {
                 roles = "ADMIN, USER";
             } else roles = "USER";
             cellText = document.createTextNode(roles);
@@ -385,12 +387,12 @@
             row.appendChild(cell);
 
             const editButtonCell = document.createElement("td");
-            let editButton = createEditButton(manyDefaultUsers[i]);
+            let editButton = createEditButton(fetchedUsers[i]);
             editButtonCell.appendChild(editButton);
             row.appendChild(editButtonCell);
 
             const deleteButtonCell = document.createElement("td");
-            let deleteButton = createDeleteButton(manyDefaultUsers[i]);
+            let deleteButton = createDeleteButton(fetchedUsers[i]);
             deleteButtonCell.appendChild(deleteButton);
             row.appendChild(deleteButtonCell);
             tblBody.appendChild(row);
@@ -439,7 +441,7 @@
                                 <div  class="container-fluid">
                                     <div class="row text-center" >
                                         <div class="col-2"></div>
-                                        <div class="col-8">
+                                        <div class="col-8" id="newUserForm" >
                                             <form class="text-center">
                                                 <div class="form-group col-6 mx-auto">
                                                     <strong><label for="name" class="font-weight-bold">Name</label></strong>
@@ -495,17 +497,90 @@
     }
 
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const URL = "http://localhost:8080/test/api/";
+    document.addEventListener("DOMContentLoaded", async function () {
+        const URL = "http://localhost:8080/test/api";
         createHeader();
         createSidebar();
-        createMainPanel(manyDefaultUsers);
-        let allUsers = fetch(URL);
-        allUsers.then(allUsers => allUsers.json())
-        console.log(allUsers);
+        //createMainPanel();
+        const p = new Promise(function(resolve) {
+            resolve(fetch(URL)
+                .then(response => response.json())
+                .then(allUsers => {
+                    createMainPanel(allUsers);
+                }))
+        })
+        p.then(()=> {
+            const newUserForm = document.querySelector("#newUserForm");
+            newUserForm.addEventListener("submit", (e) => {
+                const newUserFirstName = newUserForm.querySelector("#name").value;
+                const newUserLastName = newUserForm.querySelector("#surname").value;
+                const newUserAge = newUserForm.querySelector("#age").value;
+                const newUserEmail = newUserForm.querySelector("#username").value;
+                const newUserPassword = newUserForm.querySelector("#password").value;
+                let newUserRoles = newUserForm.querySelector("#role").selectedIndex;
+                if (newUserRoles === 0) {
+                    newUserRoles = [
+                        {
+                            "id": 1,
+                            "name": "ROLE_USER",
+                            "users": null,
+                            "authority": "ROLE_USER"
+                        }
+                    ]
+                } else {
+                    newUserRoles = [
+                        {
+                            "id": 1,
+                            "name": "ROLE_USER",
+                            "users": null,
+                            "authority": "ROLE_USER"
+                        },
+                        {
+                            "id": 2,
+                            "name": "ROLE_ADMIN",
+                            "users": null,
+                            "authority": "ROLE_ADMIN"
+                        }
+                    ]
+                }
+                e.preventDefault();
+                console.log(defaultUser);
+                fetch(URL + "/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "name": newUserFirstName,
+                        "surname": newUserLastName,
+                        "age": newUserAge,
+                        "roles": newUserRoles,
+                        "username": newUserEmail,
+                        "password": newUserPassword,
+                        "enabled": true,
+                        "credentialsNonExpired": true,
+                        "accountNonExpired": true,
+                        "accountNonLocked": true
+
+                    })
+                })
+            })
+
+        })
 
 
+        // fetch(URL).then(response => response.json())
+        //     .then(data => {
+        //         const allUsers = data;
+        //         createMainPanel(allUsers);
+        //     });
+        // setTimeout(assignForm, 1000);
     })
+    async function assignForm() {
+        const newUserForm = document.querySelector("#newUserForm")
+        //console.log(newUserForm.innerHTML);
+        return newUserForm;
+    }
 
 
     // document.querySelector('#buttonToCreateAndDestroy').onclick = function () {

@@ -19,7 +19,6 @@ public class RestController {
 
     @GetMapping("/")
     public List<User> showAllUsers(Model model, HttpServletRequest request){
-        System.out.println("something");
         return userService.getAllUsers();
     }
 

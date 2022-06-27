@@ -11,6 +11,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <script type="text/javascript">
+    const URL = "http://localhost:8080/test/api/";
     const defaultUser = {
         "id": 1,
         "name": "Default",
@@ -325,9 +326,10 @@
         editButton.setAttribute("class","btn btn-info text-white");
         editButton.setAttribute("data-bs-toggle","modal");
         editButton.setAttribute("id","editButtonId" + user.id);
-        editButton.setAttribute("data-bs-target", "#deleteModal" + user.id)
-        editButton.setAttribute("onclick", "showDeleteModal(" + user.id + ")")
+        editButton.setAttribute("data-bs-target", "#editModal" + user.id)
+        editButton.setAttribute("onclick", "createModal('Edit', " + user.id + ")" )
         editButton.innerHTML = `Edit`;
+        //createModal("Edit", user.id);
         return editButton;
     }
 
@@ -338,9 +340,78 @@
         editButton.setAttribute("data-bs-toggle","modal");
         editButton.setAttribute("id","editButtonId" + user.id);
         editButton.setAttribute("data-bs-target", "#deleteModal" + user.id)
-        editButton.setAttribute("onclick", "showDeleteModal(" + user.id + ")")
+        editButton.setAttribute("onclick", "showDeleteModal" + user.id)
         editButton.innerHTML = `Delete`;
         return editButton;
+    }
+
+    function createModal(typeOfModal="Edit", userId=2) {
+        let modalWrap = null;
+        if (modalWrap !== null) {
+            modalWrap.remove();
+        }
+        const p = new Promise(function(resolve) {
+            resolve(fetch(URL+userId)
+                .then(response => response.json())
+                .then(user => {
+                    console.log(user);
+                    console.log(user.name);
+                    modalWrap = document.createElement('div');
+                    modalWrap.innerHTML = `
+            <div class="modal fade" id="editModal${user.id}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Delete user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" >
+                    <form method="PUT" action="/admin/${user.id}">
+                    <div class="form-group">
+                        <label for="id" >ID</label>
+                        <input type="number" class="form-control" placeholder="${user.id}" id="id" disabled aria-describedby="nameHelp">
+                      </div>
+                      <div class="form-group">
+                        <label for="name">First name</label>
+                        <input type="text" class="form-control" placeholder="${user.name}" id="name" disabled aria-describedby="nameHelp">
+                      </div>
+                      <div class="form-group">
+                        <label for="surname">Surname</label>
+                        <input type="text" class="form-control" placeholder="${user.surname}" id="surname" disabled aria-describedby="surnameHelp">
+                      </div>
+                      <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" class="form-control" placeholder="${user.age}" id="age" disabled aria-describedby="surnameHelp">
+                      </div>
+                      <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" placeholder="${user.username}" id="email" disabled aria-describedby="emailHelp">
+                      </div>
+                      <label for="role">Role</label>
+                      <select class="form-select" multiple aria-label="multiple select example" id="role" disabled>
+                        <option selected>Admin</option>
+                        <option value="1">User</option>
+                      </select>
+                      <button class="btn btn-danger" type="submit">Delete User</button>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        `
+                    document.body.append(modalWrap);
+                    let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
+                    modal.show();
+                }))
+
+        })
+
+
     }
 
     function createMainPanel(fetchedUsers=manyDefaultUsers) {
@@ -498,10 +569,8 @@
 
 
     document.addEventListener("DOMContentLoaded", async function () {
-        const URL = "http://localhost:8080/test/api";
         createHeader();
         createSidebar();
-        //createMainPanel();
         const p = new Promise(function(resolve) {
             resolve(fetch(URL)
                 .then(response => response.json())
@@ -512,74 +581,67 @@
         p.then(()=> {
             const newUserForm = document.querySelector("#newUserForm");
             newUserForm.addEventListener("submit", (e) => {
-                const newUserFirstName = newUserForm.querySelector("#name").value;
-                const newUserLastName = newUserForm.querySelector("#surname").value;
-                const newUserAge = newUserForm.querySelector("#age").value;
-                const newUserEmail = newUserForm.querySelector("#username").value;
-                const newUserPassword = newUserForm.querySelector("#password").value;
-                let newUserRoles = newUserForm.querySelector("#role").selectedIndex;
-                if (newUserRoles === 0) {
-                    newUserRoles = [
-                        {
-                            "id": 1,
-                            "name": "ROLE_USER",
-                            "users": null,
-                            "authority": "ROLE_USER"
-                        }
-                    ]
-                } else {
-                    newUserRoles = [
-                        {
-                            "id": 1,
-                            "name": "ROLE_USER",
-                            "users": null,
-                            "authority": "ROLE_USER"
-                        },
-                        {
-                            "id": 2,
-                            "name": "ROLE_ADMIN",
-                            "users": null,
-                            "authority": "ROLE_ADMIN"
-                        }
-                    ]
-                }
-                e.preventDefault();
-                console.log(defaultUser);
-                fetch(URL + "/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "name": newUserFirstName,
-                        "surname": newUserLastName,
-                        "age": newUserAge,
-                        "roles": newUserRoles,
-                        "username": newUserEmail,
-                        "password": newUserPassword,
-                        "enabled": true,
-                        "credentialsNonExpired": true,
-                        "accountNonExpired": true,
-                        "accountNonLocked": true
 
-                    })
-                })
+                e.preventDefault();
+                submitNewUserForm(newUserForm);
             })
 
         })
-
-
-        // fetch(URL).then(response => response.json())
-        //     .then(data => {
-        //         const allUsers = data;
-        //         createMainPanel(allUsers);
-        //     });
-        // setTimeout(assignForm, 1000);
     })
-    async function assignForm() {
-        const newUserForm = document.querySelector("#newUserForm")
-        //console.log(newUserForm.innerHTML);
-        return newUserForm;
+
+    function submitNewUserForm(userForm) {
+        const newUserFirstName = userForm.querySelector("#name").value;
+        const newUserLastName = userForm.querySelector("#surname").value;
+        const newUserAge = userForm.querySelector("#age").value;
+        const newUserEmail = userForm.querySelector("#username").value;
+        const newUserPassword = userForm.querySelector("#password").value;
+        let newUserRoles = userForm.querySelector("#role").selectedIndex;
+        if (newUserRoles === 0) {
+            newUserRoles = [
+                {
+                    "id": 1,
+                    "name": "ROLE_USER",
+                    "users": null,
+                    "authority": "ROLE_USER"
+                }
+            ]
+        } else {
+            newUserRoles = [
+                {
+                    "id": 1,
+                    "name": "ROLE_USER",
+                    "users": null,
+                    "authority": "ROLE_USER"
+                },
+                {
+                    "id": 2,
+                    "name": "ROLE_ADMIN",
+                    "users": null,
+                    "authority": "ROLE_ADMIN"
+                }
+            ]
+        }
+
+        console.log(defaultUser);
+        fetch(URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "name": newUserFirstName,
+                "surname": newUserLastName,
+                "age": newUserAge,
+                "roles": newUserRoles,
+                "username": newUserEmail,
+                "password": newUserPassword,
+                "enabled": true,
+                "credentialsNonExpired": true,
+                "accountNonExpired": true,
+                "accountNonLocked": true
+
+            })
+        })
     }
 
 

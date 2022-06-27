@@ -370,7 +370,7 @@
                                                     <form method="PUT" action="/admin/${user.id}">
                                                     <div class="form-group">
                                                          <strong><label for="id" >ID</label></strong>
-                                                        <input type="number" class="form-control" value="${user.id}" placeholder="${user.id}" id="id" disabled aria-describedby="nameHelp">
+                                                        <input type="number" class="form-control" value="${user.id}" id="id" disabled aria-describedby="nameHelp">
                                                       </div>
                                                       <div class="form-group">
                                                          <strong><label for="name">First name</label></strong>
@@ -392,8 +392,6 @@
                                                     </form>
                                                   </div>
                                                   <div class="modal-footer">
-                                                    <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">Close</button>
-                                                    <button class="btn btn-primary" type="submit">Edit User</button>
                                                   </div>
                                                 </div>
                                               </div>
@@ -423,6 +421,54 @@
                                                       </select>
                                                       `
                             modalWrap.querySelector("form").appendChild(selectControl)
+                            const id = modalWrap.querySelector("#id").value;
+                            const name = modalWrap.querySelector("#name").value;
+                            const surname = modalWrap.querySelector("#surname.value");
+                            const age = modalWrap.querySelector("#age").value;
+                            const username = modalWrap.querySelector("#email").value;
+                            const password = modalWrap.querySelector("#password").value;
+                            let role = modalWrap.querySelector("#role").selectedIndex;
+                            if (role === 0) {
+                                role = [
+                                    {
+                                        "id": 1,
+                                        "name": "ROLE_USER",
+                                        "users": null,
+                                        "authority": "ROLE_USER"
+                                    }
+                                ]
+                            } else {
+                                role = [
+                                    {
+                                        "id": 1,
+                                        "name": "ROLE_USER",
+                                        "users": null,
+                                        "authority": "ROLE_USER"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "ROLE_ADMIN",
+                                        "users": null,
+                                        "authority": "ROLE_ADMIN"
+                                    }
+                                ]
+                            }
+                            let editedUser = {
+                                "id": id,
+                                "name": name,
+                                "surname": surname,
+                                "age": age,
+                                "roles": role,
+                                "username": username,
+                                "password": password,
+                                "enabled": true,
+                                "credentialsNonExpired": true,
+                                "accountNonExpired": true,
+                                "accountNonLocked": true
+                            }
+                            modalWrap.querySelector(".modal-footer").innerHTML=
+                                `<button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                <button class="btn btn-primary" onclick="editUser(${editedUser})" data-bs-dismiss="modal" type="submit">Edit User</button>`
                             break;
 
                         case "Delete":
@@ -437,10 +483,13 @@
                                                         <option value="1">User</option>
                                                       </select>
                                                       `
-                            modalWrap.querySelector("form").appendChild(selectControl)
+                            modalWrap.querySelector("form").appendChild(selectControl);
+
                             modalWrap.querySelector(".modal-footer").innerHTML=
-                                `<button class="btn btn-danger" onclick="deleteUser(${user.id})" data-bs-dismiss="modal" type="submit">Delete User</button>`
+                                `<button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                <button class="btn btn-danger" onclick="deleteUser(${user.id})" data-bs-dismiss="modal" type="submit">Delete User</button>`
                             break;
+
                     }
 
                     document.body.append(modalWrap);
@@ -452,11 +501,16 @@
 
 
     }
-    function deleteUser(id) {
+
+    async function deleteUser(id) {
         console.log("User with ID " + id + " is being deleted");
-        fetch(URL + id, {method: "DELETE"}).then(result => console.log(result))
-        document.querySelector(".modal").remove();
-        reRenderPage();
+        await fetch(URL + id, {method: "DELETE"}).then(result => console.log(result))
+            //document.querySelector(".modal").remove();
+        await reRenderPage();
+    }
+    async function editUser(user) {
+        console.log("Editing user with id" + user.id);
+        await fetch(URL,{method:"PUT",headers: {"Content-Type": "application/json"}, body: JSON.stringify(user)})
     }
 
     function reRenderPage() {
@@ -466,7 +520,7 @@
         const p = new Promise(function(resolve) {
             resolve(createMainPanel());
         })
-        p.then(console.log(12312));
+        p.then(data => console.log(12312));
     }
     function createMainPanel() {
         let p = new Promise(function(resolve) {

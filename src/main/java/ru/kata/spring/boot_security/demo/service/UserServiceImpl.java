@@ -20,7 +20,7 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
-        //не совсем понял, что подразумевается под сэттить пароли и роли в слое бизнес логики
+
     private final UserDAO userDAO;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -35,19 +35,6 @@ public class UserServiceImpl implements UserService {
         return userDAO.getAllUsers();
     }
 
-    @Transactional
-    @Override
-    public void addOld(User user, String role) {
-        Set<Role> roles;
-        if (role.equals("ROLE_ADMIN")) {
-            roles = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
-        } else {
-            roles = Set.of(new Role(1L, "ROLE_USER"));
-        }
-        user.setRoles(roles);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDAO.add(user);
-    }
 
     @Transactional
     @Override
@@ -62,20 +49,6 @@ public class UserServiceImpl implements UserService {
         userDAO.delete(id);
     }
 
-    @Transactional
-    @Override
-    public void editOld(User user, int id, String role) {
-        Set<Role> rolesToChange;
-        if (role.equals("ROLE_ADMIN")) {
-            rolesToChange = Set.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_ADMIN"));
-        } else {
-            rolesToChange = Set.of(new Role(1L, "ROLE_USER"));
-        }
-        user.setRoles(rolesToChange);
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDAO.editOld(user, id);
-    }
 
     @Transactional
     @Override

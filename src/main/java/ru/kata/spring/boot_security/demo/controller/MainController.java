@@ -22,7 +22,7 @@ public class MainController {
     @GetMapping("/")
     public String index(Model model, HttpServletRequest request) {
         model.addAttribute("activeUser", userService.loadUserByUsername(request.getRemoteUser()));
-        return "users/RESTIndex";
+        return "users/index";
     }
 
 }

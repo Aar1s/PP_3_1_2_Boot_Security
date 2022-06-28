@@ -418,41 +418,41 @@
                                                     <div class="col-8" id="newUserForm" >
                                                         <form class="text-center">
                                                             <div class="form-group col-6 mx-auto">
-                                                                <strong><label for="name" class="font-weight-bold">Name</label></strong>
-                                                                <input type="text" class="form-control" id="name"  aria-describedby="First Name" placeholder="Enter user's first name">
+                                                                <strong><label for="nameNew" class="font-weight-bold">Name</label></strong>
+                                                                <input type="text" class="form-control" id="nameNew"  aria-describedby="First Name" placeholder="Enter user's first name">
                                                             </div>
 
                                                             <div class="form-group col-6  mx-auto text-center">
-                                                                <strong><label for="surname" class="font-weight-bold">Last Name</label></strong>
-                                                                <input type="text" class="form-control" id="surname"  aria-describedby="Second Name" placeholder="Enter user's last name">
+                                                                <strong><label for="surnameNew" class="font-weight-bold">Last Name</label></strong>
+                                                                <input type="text" class="form-control" id="surnameNew"  aria-describedby="Second Name" placeholder="Enter user's last name">
                                                                 <div id="lastNameHelp" class="form-text"></div>
 
                                                             </div>
                                                             <div class="form-group col-6  mx-auto text-center">
-                                                                <strong><label for="age" class="font-weight-bold">Age</label></strong>
-                                                                <input type="number" class="form-control" id="age" aria-describedby="Age" placeholder="Enter user's age">
+                                                                <strong><label for="ageNew" class="font-weight-bold">Age</label></strong>
+                                                                <input type="number" class="form-control" id="ageNew" aria-describedby="Age" placeholder="Enter user's age">
                                                                 <div id="ageHelp" class="form-text"></div>
 
                                                             </div>
                                                             <div class="form-group col-6  mx-auto text-center">
-                                                                <strong><label for="username" class="font-weight-bold">Email</label></strong>
-                                                                <input type="email" class="form-control" id="username"  aria-describedby="email" placeholder="Enter user's email">
+                                                                <strong><label for="usernameNew" class="font-weight-bold">Email</label></strong>
+                                                                <input type="email" class="form-control" id="usernameNew"  aria-describedby="email" placeholder="Enter user's email">
                                                                 <div id="email help" class="form-text"></div>
 
                                                             </div>
                                                             <div class="form-group col-6  mx-auto text-center">
-                                                                <strong><label for="password" class="font-weight-bold">Password</label></strong>
-                                                                <input type="password" class="form-control"  id="password" placeholder="Enter user's password">
+                                                                <strong><label for="passwordNew" class="font-weight-bold">Password</label></strong>
+                                                                <input type="password" class="form-control"  id="passwordNew" placeholder="Enter user's password">
                                                             </div>
                                                             <div class="form-group col-6  mx-auto text-center">
-                                                                <strong><label for="role" class="font-weight-bold">Role </label></strong>
-                                                            <select class="form-select form-select-sm" aria-label="Small select" id="role" name="role" size="2" >
+                                                                <strong><label for="roleNew" class="font-weight-bold">Role</label></strong>
+                                                            <select class="form-select form-select-sm" aria-label="Small select" id="roleNew" name="role" size="2" >
                                                                 <option selected value="ROLE_USER">User</option>
                                                                 <option value="ROLE_ADMIN">Admin</option>
                                                             </select>
                                                             </div>
                                                             <div class="mx-auto pt-3">
-                                                                <button type="submit" class="btn btn-success text-center">Add new user</button>
+                                                                <button type="submit" onclick="submitNewUserForm()" class="btn btn-success text-center">Add new user</button>
                                                             </div>
                                                     </form>
                                                     </div>
@@ -493,13 +493,13 @@
 
     })
 
-    async function submitNewUserForm(userForm) {
-        let newUserFirstName = userForm.querySelector("#name").value;
-        let newUserLastName = userForm.querySelector("#surname").value;
-        let newUserAge = userForm.querySelector("#age").value;
-        let newUserEmail = userForm.querySelector("#username").value;
-        let newUserPassword = userForm.querySelector("#password").value;
-        let newUserRoles = userForm.querySelector("#role").selectedIndex;
+    async function submitNewUserForm() {
+        let newUserFirstName = document.body.querySelector("#nameNew").value;
+        let newUserLastName = document.body.querySelector("#surnameNew").value;
+        let newUserAge = document.body.querySelector("#ageNew").value;
+        let newUserEmail = document.body.querySelector("#usernameNew").value;
+        let newUserPassword = document.body.querySelector("#passwordNew").value;
+        let newUserRoles = document.body.querySelector("#roleNew").selectedIndex;
         if (newUserRoles === 0) {
             newUserRoles = [
                 {
@@ -525,7 +525,7 @@
                 }
             ]
         }
-
+        console.log(newUserEmail);
         await fetch(URL, {
             method: "POST",
             headers: {
@@ -545,11 +545,11 @@
 
             })
         })
-        userForm.querySelector("#name").value = "";
-        userForm.querySelector("#surname").value = "";
-        userForm.querySelector("#age").value = "";
-        userForm.querySelector("#username").value = "";
-        userForm.querySelector("#password").value = "";
+        document.body.querySelector("#nameNew").value = "";
+        document.body.querySelector("#surnameNew").value = "";
+        document.body.querySelector("#ageNew").value = "";
+        document.body.querySelector("#usernameNew").value = "";
+        document.body.querySelector("#passwordNew").value = "";
         await reRenderPage();
 
     }

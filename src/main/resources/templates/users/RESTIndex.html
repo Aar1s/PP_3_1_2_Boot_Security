@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-1">
                                 <div class="btn">
-                                    <a class="btn btn-outline-light btn-lg" href="/logout/" role="button">Logout</a>
+                                    <a class="btn btn-outline-light btn-lg" onclick="logout()" href="/logout/" role="button">Logout</a>
                                 </div>
                             </div>
                         </div>
@@ -46,6 +46,9 @@
                 </div>
             </div>`
         document.body.appendChild(header);
+    }
+    function logout() {
+        document.querySelector("#mainPanel").remove();
     }
 
     function switchToUser() {
@@ -86,7 +89,7 @@
                 `
         } else {
             navbar.innerHTML = `
-            <button class="nav-link active" href="#userPanel"  role="tab"
+            <button class="nav-link active" role="tab"
                           onclick="switchToAdmin()" aria-controls="v-pills-profile" aria-selected="true">User</button>
 
             `
@@ -124,7 +127,7 @@
         return editButton;
     }
 
-    function createModal(typeOfModal="Edit", userId=2) {
+    async function createModal(typeOfModal="Edit", userId=2) {
         let modalWrap = null;
         if (modalWrap !== null) {
             modalWrap.remove();
@@ -305,9 +308,9 @@
 
     function reRenderPage() {
         document.querySelector("#adminPanel").ariaSelected;
-        document.querySelector("#adminPanel").remove();
+        document.querySelector("#mainPanel").remove();
         const p = new Promise(function(resolve) {
-            resolve(createAdminPanel());
+            resolve(createMainPanel());
         })
     }
 
@@ -469,19 +472,84 @@
 
         adminPanel.querySelector("#usersTable").appendChild(await tblBody);
         document.querySelector("#mainPanel").appendChild(await adminPanel);
+        await createUserPanel();
+        document.querySelector("#userPanel").hidden = true;
+    }
+
+    async function createUserPanel() {
+        let activeUser = await getActiveUser();
+        let userPage = document.createElement('div');
+        let roles;
+        if (activeUser.roles.length > 1) {
+            roles = "ADMIN, USER";
+        } else roles = "USER";
+        userPage.innerHTML = `
+                                <div class="h1 p-3">User information page</div>
+                                <nav class="card col-11 px-2" >
+                                    <div class="card-header">
+                                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Users Table</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tab-content" id="userTabContent">
+                                            <!--userpage-->
+                                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                                <h2 class="card-header">About user</h2>
+                                                <div class="container-fluid">
+                                                    <table class="table table-striped">
+                                                        <div class="p-30">
+                                                            <br>
+                                                        </div>
+                                                        <thead class="text-black">
+                                                        <tr>
+                                                            <th scope="col">ID</th>
+                                                            <th scope="col">First name</th>
+                                                            <th scope="col">Last name</th>
+                                                            <th scope="col">Age</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">Role</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr scope="row" >
+                                                            <td scope="row" >${activeUser.id}</td>
+                                                            <td  scope="row"  >${activeUser.name}</td>
+                                                            <td scope="row" >${activeUser.surname}</td>
+                                                            <td scope="row" >${activeUser.age}</td>
+                                                            <td scope="row" >${activeUser.username}</td>
+                                                            <td scope="row">${roles}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nav>`
+        userPage.setAttribute("class", "col-10");
+        userPage.setAttribute("id", "userPanel");
+        document.body.querySelector("#mainPanel").appendChild(userPage);
+
     }
 
     async function createMainPanel() {
         let mainPanel = document.createElement("div");
         mainPanel.setAttribute("id", "mainPanel");
         mainPanel.setAttribute("class", "col-10");
-        document.querySelector("#mainRow").appendChild(await mainPanel);
+        document.querySelector("#mainRow").appendChild(mainPanel);
         let activeUser = await getActiveUser();
-        await createUserPanel();
+
+
         if (activeUser.roles.length > 1) {
             console.log(activeUser);
             await createAdminPanel();
-            return null;
+            document.querySelector("#userPage").hidden = true;
+        } else {
+            await createUserPanel();
+
         }
     }
 
@@ -554,80 +622,6 @@
 
     }
 
-    async function createUserPanel() {
-        let activeUser = await getActiveUser();
-        let userPage = document.createElement('div');
-        let roles;
-        if (activeUser.roles.length > 1) {
-            roles = "ADMIN, USER";
-        } else roles = "USER";
-        userPage.innerHTML = `
-                                <div class="h1 p-3">User information page</div>
-                                <nav class="card col-11 px-2" >
-                                    <div class="card-header">
-                                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                                            <li class="nav-item" role="presentation">
-                                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Users Table</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="tab-content" id="userTabContent">
-                                            <!--userpage-->
-                                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                                <h2 class="card-header">About user</h2>
-                                                <div class="container-fluid">
-                                                    <table class="table table-striped">
-                                                        <div class="p-30">
-                                                            <br>
-                                                        </div>
-                                                        <thead class="text-black">
-                                                        <tr>
-                                                            <th scope="col">ID</th>
-                                                            <th scope="col">First name</th>
-                                                            <th scope="col">Last name</th>
-                                                            <th scope="col">Age</th>
-                                                            <th scope="col">Email</th>
-                                                            <th scope="col">Role</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr scope="row" >
-                                                            <td scope="row" >${activeUser.id}</td>
-                                                            <td  scope="row"  >${activeUser.name}</td>
-                                                            <td scope="row" >${activeUser.surname}</td>
-                                                            <td scope="row" >${activeUser.age}</td>
-                                                            <td scope="row" >${activeUser.username}</td>
-                                                            <td scope="row">${roles}</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nav>`
-        userPage.setAttribute("class", "col-10");
-        userPage.setAttribute("id", "userPanel");
-        userPage.hidden = true;
-        document.body.querySelector("#mainPanel").appendChild(userPage);
-
-    }
-
-    // document.querySelector('#buttonToCreateAndDestroy').onclick = function () {
-    //     if (document.querySelector("#destructible")) {
-    //         document.querySelector("#destructible").remove();
-    //         document.querySelector("#buttonToCreateAndDestroy").textContent = "Button to create";
-    //     } else {
-    //         document.querySelector("#buttonToCreateAndDestroy").textContent = "Button to destroy";
-    //         let divToChange = document.querySelector("#MainPanel")
-    //         let newElem = document.createElement("h2");
-    //         newElem.setAttribute("id","destructible");
-    //         const text = document.createTextNode( "This Was Created Anew!");
-    //         newElem.appendChild(text);
-    //         divToChange.appendChild(newElem);
-    //     }
-    // }
 </script>
 </body>
 </html>

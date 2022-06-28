@@ -306,12 +306,10 @@
         await reRenderPage();
     }
 
-    function reRenderPage() {
-        document.querySelector("#adminPanel").ariaSelected;
+    async function reRenderPage() {
         document.querySelector("#mainPanel").remove();
-        const p = new Promise(function(resolve) {
-            resolve(createMainPanel());
-        })
+        await createMainPanel();
+
     }
 
     async function createTable(allUsers) {
@@ -621,6 +619,9 @@
         await reRenderPage();
 
     }
+
+
+
 
 </script>
 </body>

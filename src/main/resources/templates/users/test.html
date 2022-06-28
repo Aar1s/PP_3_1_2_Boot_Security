@@ -12,53 +12,101 @@
     <title>Hello, world!</title>
 </head>
 <body class="bg-light">
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" onclick="showModal()" data-bs-toggle="modal" data-bs-target="#deleteModal">
-    Launch demo modal
-</button>
+<div id="mainPanel"></div>
+<div class="col-10" id="adminPanel">
+    <div class="h1 p-3">Admin panel</div>
+    <nav class="card col-11 px-2">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" onclick="reRenderPage()" aria-controls="home" aria-selected="true">Users Table</a>
+                </li>
+                <li>
+                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#new" role="tab" aria-controls="profile" aria-selected="false">New User</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <h2 class="card-header">All Users</h2>
+                    <div class="container-fluid">
+                        <table id="usersTable" class="table table-striped">
+                            <div class="p-30">
+                                <hr>
+                            </div>
+                            <thead class="text-black">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">First name</th>
+                                <th scope="col">Last name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                            </thead>
+                        </table>
 
-<!-- Modal -->
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="profile-tab">
+                    <div  class="container-fluid">
+                        <div class="row text-center" >
+                            <div class="col-2"></div>
+                            <div class="col-8" id="newUserForm" >
+                                <form class="text-center">
+                                    <div class="form-group col-6 mx-auto">
+                                        <strong><label for="name" class="font-weight-bold">Name</label></strong>
+                                        <input type="text" class="form-control" id="name"  aria-describedby="First Name" placeholder="Enter user's first name">
+                                    </div>
 
+                                    <div class="form-group col-6  mx-auto text-center">
+                                        <strong><label for="surname" class="font-weight-bold">Last Name</label></strong>
+                                        <input type="text" class="form-control" id="surname"  aria-describedby="Second Name" placeholder="Enter user's last name">
+                                        <div id="lastNameHelp" class="form-text"></div>
 
+                                    </div>
+                                    <div class="form-group col-6  mx-auto text-center">
+                                        <strong><label for="age" class="font-weight-bold">Age</label></strong>
+                                        <input type="number" class="form-control" id="age" aria-describedby="Age" placeholder="Enter user's age">
+                                        <div id="ageHelp" class="form-text"></div>
+
+                                    </div>
+                                    <div class="form-group col-6  mx-auto text-center">
+                                        <strong><label for="username" class="font-weight-bold">Email</label></strong>
+                                        <input type="email" class="form-control" id="username"  aria-describedby="email" placeholder="Enter user's email">
+                                        <div id="email help" class="form-text"></div>
+
+                                    </div>
+                                    <div class="form-group col-6  mx-auto text-center">
+                                        <strong><label for="password" class="font-weight-bold">Password</label></strong>
+                                        <input type="password" class="form-control"  id="password" placeholder="Enter user's password">
+                                    </div>
+                                    <div class="form-group col-6  mx-auto text-center">
+                                        <strong><label for="role" class="font-weight-bold">Role </label></strong>
+                                        <select class="form-select form-select-sm" aria-label="Small select" id="role" name="role" size="2" >
+                                            <option selected value="ROLE_USER">User</option>
+                                            <option value="ROLE_ADMIN">Admin</option>
+                                        </select>
+                                    </div>
+                                    <div class="mx-auto pt-3">
+                                        <button type="submit" class="btn btn-success text-center">Add new user</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <script>
-    let modalWrap = null;
-    if (modalWrap !== null) {
-        modalWrap.remove();
-    }
 
-    const showModal = () => {
-        modalWrap = document.createElement('div');
-        modalWrap.innerHTML = `
-            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Заголовок модального окна</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    ...
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Сохранить изменения</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-        `
-
-
-    document.body.append(modalWrap);
-
-    let modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
-
-    modal.show();
-
-    }
 </script>
 </body>
 </html>

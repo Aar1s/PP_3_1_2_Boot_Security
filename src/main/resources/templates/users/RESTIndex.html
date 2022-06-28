@@ -11,253 +11,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <script type="text/javascript">
     const URL = "http://localhost:8080/test/api/";
-    const defaultUser = {
-        "id": 1,
-        "name": "Default",
-        "surname": "User",
-        "age": 41,
-        "roles": [
-            {
-                "id": 1,
-                "name": "ROLE_USER",
-                "users": null,
-                "authority": "ROLE_USER"
-            },
-            {
-                "id": 2,
-                "name": "ROLE_ADMIN",
-                "users": null,
-                "authority": "ROLE_ADMIN"
-            }
-        ],
-        "username": "DefaultUser@gmail.com",
-        "password": "123",
-        "enabled": true,
-        "credentialsNonExpired": true,
-        "accountNonExpired": true,
-        "accountNonLocked": true
-    }
-    const manyDefaultUsers = [
-        {
-            "id": 2,
-            "name": "Nick",
-            "surname": "Mason",
-            "age": 42,
-            "roles": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                },
-                {
-                    "id": 2,
-                    "name": "ROLE_ADMIN",
-                    "users": null,
-                    "authority": "ROLE_ADMIN"
-                }
-            ],
-            "username": "NickMason",
-            "password": "$2a$10$1JL4rV82pQ9M3yjk5tf1POvPxqKE2.8LOQF09NGAk7UDGmbnhnjiq",
-            "enabled": true,
-            "authorities": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                },
-                {
-                    "id": 2,
-                    "name": "ROLE_ADMIN",
-                    "users": null,
-                    "authority": "ROLE_ADMIN"
-                }
-            ],
-            "accountNonLocked": true,
-            "accountNonExpired": true,
-            "credentialsNonExpired": true
-        },
-        {
-            "id": 9,
-            "name": "Claire",
-            "surname": "Tonti",
-            "age": 41,
-            "roles": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                }
-            ],
-            "username": "ClaireTonti",
-            "password": "$2a$10$V9e0ej5NZuOnsYN/0IlqduloEc9fHk7x/7SaS54zuZFQu8vzwYura",
-            "enabled": true,
-            "authorities": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                }
-            ],
-            "accountNonLocked": true,
-            "accountNonExpired": true,
-            "credentialsNonExpired": true
-        },
-        {
-            "id": 33,
-            "name": "user",
-            "surname": "Clement",
-            "age": 32,
-            "roles": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                },
-                {
-                    "id": 2,
-                    "name": "ROLE_ADMIN",
-                    "users": null,
-                    "authority": "ROLE_ADMIN"
-                }
-            ],
-            "username": "user",
-            "password": "$2a$10$X5g9Tcn3XLquYtsSss1vaOWqJk00mG/bsC4OmlBpMn28iCw2CK1hy",
-            "enabled": true,
-            "authorities": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                },
-                {
-                    "id": 2,
-                    "name": "ROLE_ADMIN",
-                    "users": null,
-                    "authority": "ROLE_ADMIN"
-                }
-            ],
-            "accountNonLocked": true,
-            "accountNonExpired": true,
-            "credentialsNonExpired": true
-        },
-        {
-            "id": 39,
-            "name": "Alexey",
-            "surname": "Volozhanin",
-            "age": 29,
-            "roles": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                },
-                {
-                    "id": 2,
-                    "name": "ROLE_ADMIN",
-                    "users": null,
-                    "authority": "ROLE_ADMIN"
-                }
-            ],
-            "username": "awolozhanin@gmail.com",
-            "password": "$2a$10$ZLtPbhXOj5EsKxy1VfcEiO08ZzX97Wxz8IY/pHdje664HVrufOmeS",
-            "enabled": true,
-            "authorities": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                },
-                {
-                    "id": 2,
-                    "name": "ROLE_ADMIN",
-                    "users": null,
-                    "authority": "ROLE_ADMIN"
-                }
-            ],
-            "accountNonLocked": true,
-            "accountNonExpired": true,
-            "credentialsNonExpired": true
-        },
-        {
-            "id": 49,
-            "name": "James",
-            "surname": "Clement",
-            "age": 41,
-            "roles": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                },
-                {
-                    "id": 2,
-                    "name": "ROLE_ADMIN",
-                    "users": null,
-                    "authority": "ROLE_ADMIN"
-                }
-            ],
-            "username": "awolozhanin1@gmail.com",
-            "password": "$2a$10$DRZY1QGkUZBRpAZmxko5qef9fR7fkMKXIn8VAbh/GJCUcrNXlENY6",
-            "enabled": true,
-            "authorities": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                },
-                {
-                    "id": 2,
-                    "name": "ROLE_ADMIN",
-                    "users": null,
-                    "authority": "ROLE_ADMIN"
-                }
-            ],
-            "accountNonLocked": true,
-            "accountNonExpired": true,
-            "credentialsNonExpired": true
-        },
-        {
-            "id": 52,
-            "name": "YetAnother",
-            "surname": "NewUser",
-            "age": 41,
-            "roles": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                }
-            ],
-            "username": "AnotherNewUser",
-            "password": "$2a$10$SYIOI0y2cTQcjwWm/v30LezWwFPJQRr4kE.Eu9LloqhM4sHs1GwKm",
-            "enabled": true,
-            "authorities": [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                }
-            ],
-            "accountNonLocked": true,
-            "accountNonExpired": true,
-            "credentialsNonExpired": true
-        }
-    ]
+
     async function getActiveUser() {
         return await fetch(URL + "activeUser").then(response => response.json());
     }
+
     async function createHeader() {
         let activeUser = await getActiveUser();
         let roles = "";
@@ -290,27 +48,46 @@
         document.body.appendChild(header);
     }
 
+    function switchToUser() {
+        document.body.querySelector("#adminPanel").hidden = true;
+        document.body.querySelector("#userPanel").hidden = false;
+        document.body.querySelector("#adminTab").setAttribute("class", "nav-link");
+        document.body.querySelector("#adminTab").setAttribute("aria-selected", "false");
+        document.body.querySelector("#userTab").setAttribute("class", "nav-link active");
+        document.body.querySelector("#userTab").setAttribute("aria-selected", "true");
+
+    }
+
+    function switchToAdmin() {
+        document.querySelector("#adminPanel").hidden = false;
+        document.querySelector("#userPanel").hidden = true;
+        document.body.querySelector("#userTab").setAttribute("class", "nav-link");
+        document.body.querySelector("#userTab").setAttribute("aria-selected", "false");
+        document.body.querySelector("#adminTab").setAttribute("class", "nav-link active");
+        document.body.querySelector("#adminTab").setAttribute("aria-selected", "true");
+    }
 
     async function createSidebar() {
         let activeUser = await getActiveUser();
         let sidebar = document.createElement("div");
         let navbar = document.createElement("div");
         sidebar.innerHTML = `<div class="row" id="mainRow">
-            <div id="rolesNavbar" class="col-2 sidebar container-fluid bg-white text-center" style="height:100vh"></div>
-            <!-- Main Panel goes here -->
+        <div class="col-2"></div>
+            <div id="rolesNavbar" class="col-2 sidebar container-fluid bg-white text-center"  style="height:100vh;position: fixed;left: 0"></div>
         </div>`
-        document.body.appendChild(sidebar)
+        document.body.appendChild(sidebar);
         if (activeUser.roles.length > 1) {
             navbar.innerHTML = `
-                <a class="nav-link active" href="#adminPanel" role="tab"
-                           aria-controls="v-pills-home" aria-selected="true">Admin</a>
-                <a class="nav-link" href="#userPanel"  role="tab"
-                           aria-controls="v-pills-profile" aria-selected="false">User</a>
+                <button id="adminTab" class="nav-link active" role="tab"
+                           onclick="switchToAdmin()" aria-controls="v-pills-home" aria-selected="true">Admin</button>
+
+                <button id="userTab" class="nav-link" role="tab"
+                           onclick="switchToUser()" aria-controls="v-pills-profile" aria-selected="false">User</button>
                 `
         } else {
             navbar.innerHTML = `
-            <a class="nav-link active" href="#userPanel"  role="tab"
-                           aria-controls="v-pills-profile" aria-selected="true">User</a>
+            <button class="nav-link active" href="#userPanel"  role="tab"
+                          onclick="switchToAdmin()" aria-controls="v-pills-profile" aria-selected="true">User</button>
 
             `
         }
@@ -323,7 +100,7 @@
         sidebarToCreate.appendChild(navbar);
     }
 
-    function createEditButton(user=defaultUser) {
+    function createEditButton(user) {
         let editButton = document.createElement("button");
         editButton.setAttribute("type","button");
         editButton.setAttribute("class","btn btn-info text-white");
@@ -335,7 +112,7 @@
         return editButton;
     }
 
-    function createDeleteButton(user=defaultUser) {
+    function createDeleteButton(user) {
         let editButton = document.createElement("button");
         editButton.setAttribute("type","button");
         editButton.setAttribute("class","btn btn-danger");
@@ -421,7 +198,7 @@
                             modalWrap.querySelector("form").appendChild(selectControl)
 
                             modalWrap.querySelector(".modal-footer").innerHTML=
-                                `<button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                `<button type="button" class="btn" onclick="deleteModal()" data-bs-dismiss="modal" aria-label="Close">Close</button>
                                 <button class="btn btn-primary" data-bs-dismiss="modal" onclick="editUser(${user.id})" type="submit">Edit User</button>`
                             break;
 
@@ -437,14 +214,14 @@
                             selectControl = document.createElement("div");
                             selectControl.innerHTML = `<strong><label for="role">Role</label></strong>
                                                       <select class="form-select" multiple aria-label="multiple select example" disabled id="role">
-                                                        <option selected>Admin</option>
+                                                        <option value="0">Admin</option>
                                                         <option value="1">User</option>
                                                       </select>
                                                       `
                             modalWrap.querySelector("form").appendChild(selectControl);
 
                             modalWrap.querySelector(".modal-footer").innerHTML=
-                                `<button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                `<button type="button" class="btn" onclick="deleteModal()" data-bs-dismiss="modal" aria-label="Close">Close</button>
                                 <button class="btn btn-danger" onclick="deleteUser(${user.id})" data-bs-dismiss="modal" type="submit">Delete User</button>`
                             break;
 
@@ -459,11 +236,14 @@
 
 
     }
+    async function deleteModal() {
+        await document.querySelector("#modalWindow").remove();
+    }
 
     async function deleteUser(id) {
         console.log("User with ID " + id + " is being deleted");
-        await fetch(URL + id, {method: "DELETE"}).then(result => console.log(result))
-        await document.querySelector("#modalWindow").remove();
+        await fetch(URL + id, {method: "DELETE"});
+        await deleteModal();
         await reRenderPage();
     }
 
@@ -477,15 +257,7 @@
         const password = editModal.querySelector("#password").value;
         let role = editModal.querySelector("#role").selectedIndex;
         if (role === 0) {
-            role = [
-                {
-                    "id": 1,
-                    "name": "ROLE_USER",
-                    "users": null,
-                    "authority": "ROLE_USER"
-                }
-            ]
-        } else {
+
             role = [
                 {
                     "id": 1,
@@ -498,6 +270,15 @@
                     "name": "ROLE_ADMIN",
                     "users": null,
                     "authority": "ROLE_ADMIN"
+                }
+            ]
+        } else {
+            role = [
+                {
+                    "id": 1,
+                    "name": "ROLE_USER",
+                    "users": null,
+                    "authority": "ROLE_USER"
                 }
             ]
         }
@@ -514,194 +295,194 @@
             accountNonExpired: true,
             accountNonLocked: true
         };
-        console.log(editedUser);
         await fetch(URL,
                 {   method:"PUT",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(editedUser)});
-        await document.querySelector("#modalWindow").remove();
+        await deleteModal();
         await reRenderPage();
     }
 
     function reRenderPage() {
-        console.log(document.querySelector("#mainPanel"));
-        document.querySelector("#mainPanel").ariaSelected;
-        document.querySelector("#mainPanel").remove();
+        document.querySelector("#adminPanel").ariaSelected;
+        document.querySelector("#adminPanel").remove();
         const p = new Promise(function(resolve) {
-            resolve(createMainPanel());
+            resolve(createAdminPanel());
         })
-        p.then(data => console.log(12312));
+    }
+
+    async function createTable(allUsers) {
+        const table = document.createElement("tbody");
+        for (let i = 0; i < allUsers.length; i++) {
+            // creates a table row
+            const row = document.createElement("tr");
+
+            let cell = document.createElement("td");
+            let cellText = document.createTextNode(allUsers[i].id);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            cellText = document.createTextNode(allUsers[i].name);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            cellText = document.createTextNode(allUsers[i].surname);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            cellText = document.createTextNode(allUsers[i].age);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            cellText = document.createTextNode(allUsers[i].username);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            cell = document.createElement("td");
+            let roles;
+            if (allUsers[i].roles.length > 1) {
+                roles = "ADMIN, USER";
+            } else roles = "USER";
+            cellText = document.createTextNode(roles);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            const editButtonCell = document.createElement("td");
+            let editButton = createEditButton(allUsers[i]);
+            editButtonCell.appendChild(editButton);
+            row.appendChild(editButtonCell);
+
+            const deleteButtonCell = document.createElement("td");
+            let deleteButton = createDeleteButton(allUsers[i]);
+            deleteButtonCell.appendChild(deleteButton);
+            row.appendChild(deleteButtonCell);
+            table.appendChild(row);
+        }
+        return table;
+
+    }
+
+    async function createAdminPanel() {
+        let allUsers = await fetch(URL).then(result => result.json());
+        let adminPanel = document.createElement("div")
+        adminPanel.setAttribute("class", "col-10")
+        let tblBody = await createTable(allUsers)
+
+        adminPanel.innerHTML = `
+                        <div class="col-10" id="adminPanel">
+                            <div class="h1 p-3">Admin panel</div>
+                            <nav class="card col-11 px-2">
+                                <div class="card-header">
+                                    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" onclick="reRenderPage()" aria-controls="home" aria-selected="true">Users Table</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#new" role="tab" aria-controls="profile" aria-selected="false">New User</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                            <h2 class="card-header">All Users</h2>
+                                            <div class="container-fluid">
+                                                <table id="usersTable" class="table table-striped">
+                                                    <div class="p-30">
+                                                        <hr>
+                                                    </div>
+                                                    <thead class="text-black">
+                                                        <tr>
+                                                            <th scope="col">ID</th>
+                                                            <th scope="col">First name</th>
+                                                            <th scope="col">Last name</th>
+                                                            <th scope="col">Age</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">Role</th>
+                                                            <th scope="col">Edit</th>
+                                                            <th scope="col">Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="profile-tab">
+                                            <div  class="container-fluid">
+                                                <div class="row text-center" >
+                                                    <div class="col-2"></div>
+                                                    <div class="col-8" id="newUserForm" >
+                                                        <form class="text-center">
+                                                            <div class="form-group col-6 mx-auto">
+                                                                <strong><label for="name" class="font-weight-bold">Name</label></strong>
+                                                                <input type="text" class="form-control" id="name"  aria-describedby="First Name" placeholder="Enter user's first name">
+                                                            </div>
+
+                                                            <div class="form-group col-6  mx-auto text-center">
+                                                                <strong><label for="surname" class="font-weight-bold">Last Name</label></strong>
+                                                                <input type="text" class="form-control" id="surname"  aria-describedby="Second Name" placeholder="Enter user's last name">
+                                                                <div id="lastNameHelp" class="form-text"></div>
+
+                                                            </div>
+                                                            <div class="form-group col-6  mx-auto text-center">
+                                                                <strong><label for="age" class="font-weight-bold">Age</label></strong>
+                                                                <input type="number" class="form-control" id="age" aria-describedby="Age" placeholder="Enter user's age">
+                                                                <div id="ageHelp" class="form-text"></div>
+
+                                                            </div>
+                                                            <div class="form-group col-6  mx-auto text-center">
+                                                                <strong><label for="username" class="font-weight-bold">Email</label></strong>
+                                                                <input type="email" class="form-control" id="username"  aria-describedby="email" placeholder="Enter user's email">
+                                                                <div id="email help" class="form-text"></div>
+
+                                                            </div>
+                                                            <div class="form-group col-6  mx-auto text-center">
+                                                                <strong><label for="password" class="font-weight-bold">Password</label></strong>
+                                                                <input type="password" class="form-control"  id="password" placeholder="Enter user's password">
+                                                            </div>
+                                                            <div class="form-group col-6  mx-auto text-center">
+                                                                <strong><label for="role" class="font-weight-bold">Role </label></strong>
+                                                            <select class="form-select form-select-sm" aria-label="Small select" id="role" name="role" size="2" >
+                                                                <option selected value="ROLE_USER">User</option>
+                                                                <option value="ROLE_ADMIN">Admin</option>
+                                                            </select>
+                                                            </div>
+                                                            <div class="mx-auto pt-3">
+                                                                <button type="submit" class="btn btn-success text-center">Add new user</button>
+                                                            </div>
+                                                    </form>
+                                                    </div>
+                                                    <div class="col-2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    `
+
+
+        adminPanel.querySelector("#usersTable").appendChild(await tblBody);
+        document.querySelector("#mainPanel").appendChild(await adminPanel);
     }
 
     async function createMainPanel() {
-        let p = new Promise(function(resolve) {
-            resolve (fetch(URL)
-                .then(response => response.json())
-                .then(allUsers => {
-
-                    let mainPanel = document.createElement("div");
-                    mainPanel.setAttribute("id", "mainPanel");
-                    mainPanel.setAttribute("class", "col-10");
-                    mainPanel.appendChild(document.createElement("div"))
-                    const tblBody = document.createElement("tbody");
-                    for (let i = 0; i < allUsers.length; i++) {
-                        // creates a table row
-                        const row = document.createElement("tr");
-
-                        let cell = document.createElement("td");
-                        let cellText = document.createTextNode(allUsers[i].id);
-                        cell.appendChild(cellText);
-                        row.appendChild(cell);
-
-                        cell = document.createElement("td");
-                        cellText = document.createTextNode(allUsers[i].name);
-                        cell.appendChild(cellText);
-                        row.appendChild(cell);
-
-                        cell = document.createElement("td");
-                        cellText = document.createTextNode(allUsers[i].surname);
-                        cell.appendChild(cellText);
-                        row.appendChild(cell);
-
-                        cell = document.createElement("td");
-                        cellText = document.createTextNode(allUsers[i].age);
-                        cell.appendChild(cellText);
-                        row.appendChild(cell);
-
-                        cell = document.createElement("td");
-                        cellText = document.createTextNode(allUsers[i].username);
-                        cell.appendChild(cellText);
-                        row.appendChild(cell);
-
-                        cell = document.createElement("td");
-                        let roles;
-                        if (allUsers[i].roles.length > 1) {
-                            roles = "ADMIN, USER";
-                        } else roles = "USER";
-                        cellText = document.createTextNode(roles);
-                        cell.appendChild(cellText);
-                        row.appendChild(cell);
-
-                        const editButtonCell = document.createElement("td");
-                        let editButton = createEditButton(allUsers[i]);
-                        editButtonCell.appendChild(editButton);
-                        row.appendChild(editButtonCell);
-
-                        const deleteButtonCell = document.createElement("td");
-                        let deleteButton = createDeleteButton(allUsers[i]);
-                        deleteButtonCell.appendChild(deleteButton);
-                        row.appendChild(deleteButtonCell);
-                        tblBody.appendChild(row);
-                    }
-
-                    mainPanel.innerHTML = `
-            <div class="col-10">
-                <div class="h1 p-3">Admin panel</div>
-                <nav class="card col-11 px-2">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" onclick="reRenderPage()" aria-controls="home" aria-selected="true">Users Table</a>
-                            </li>
-                            <li>
-                                <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#new" role="tab" aria-controls="profile" aria-selected="false">New User</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <h2 class="card-header">All Users</h2>
-                                <div class="container-fluid">
-                                    <table id="usersTable" class="table table-striped">
-                                        <div class="p-30">
-                                            <hr>
-                                        </div>
-                                        <thead class="text-black">
-                                            <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">First name</th>
-                                                <th scope="col">Last name</th>
-                                                <th scope="col">Age</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Role</th>
-                                                <th scope="col">Edit</th>
-                                                <th scope="col">Delete</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="profile-tab">
-                                <div  class="container-fluid">
-                                    <div class="row text-center" >
-                                        <div class="col-2"></div>
-                                        <div class="col-8" id="newUserForm" >
-                                            <form class="text-center">
-                                                <div class="form-group col-6 mx-auto">
-                                                    <strong><label for="name" class="font-weight-bold">Name</label></strong>
-                                                    <input type="text" class="form-control" id="name"  aria-describedby="First Name" placeholder="Enter user's first name">
-                                                </div>
-
-                                                <div class="form-group col-6  mx-auto text-center">
-                                                    <strong><label for="surname" class="font-weight-bold">Last Name</label></strong>
-                                                    <input type="text" class="form-control" id="surname"  aria-describedby="Second Name" placeholder="Enter user's last name">
-                                                    <div id="lastNameHelp" class="form-text"></div>
-
-                                                </div>
-                                                <div class="form-group col-6  mx-auto text-center">
-                                                    <strong><label for="age" class="font-weight-bold">Age</label></strong>
-                                                    <input type="number" class="form-control" id="age" aria-describedby="Age" placeholder="Enter user's age">
-                                                    <div id="ageHelp" class="form-text"></div>
-
-                                                </div>
-                                                <div class="form-group col-6  mx-auto text-center">
-                                                    <strong><label for="username" class="font-weight-bold">Email</label></strong>
-                                                    <input type="email" class="form-control" id="username"  aria-describedby="email" placeholder="Enter user's email">
-                                                    <div id="email help" class="form-text"></div>
-
-                                                </div>
-                                                <div class="form-group col-6  mx-auto text-center">
-                                                    <strong><label for="password" class="font-weight-bold">Password</label></strong>
-                                                    <input type="password" class="form-control"  id="password" placeholder="Enter user's password">
-                                                </div>
-                                                <div class="form-group col-6  mx-auto text-center">
-                                                    <strong><label for="role" class="font-weight-bold">Role </label></strong>
-                                                <select class="form-select form-select-sm" aria-label="Small select" id="role" name="role" size="2" >
-                                                    <option selected value="ROLE_USER">User</option>
-                                                    <option value="ROLE_ADMIN">Admin</option>
-                                                </select>
-                                                </div>
-                                                <div class="mx-auto pt-3">
-                                                    <button type="submit" class="btn btn-success text-center">Add new user</button>
-                                                </div>
-                                        </form>
-                                        </div>
-                                        <div class="col-2"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        `
-
-                    document.querySelector("#mainRow").appendChild(mainPanel);
-                    mainPanel.querySelector("#usersTable").appendChild(tblBody);
-                }))
-        }).then(()=> {
-            const newUserForm = document.querySelector("#newUserForm");
-            newUserForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-                submitNewUserForm(newUserForm);
-
-            })
-
-        }).then(createUserPanel)
-
-        return null;
+        let mainPanel = document.createElement("div");
+        mainPanel.setAttribute("id", "mainPanel");
+        mainPanel.setAttribute("class", "col-10");
+        document.querySelector("#mainRow").appendChild(await mainPanel);
+        let activeUser = await getActiveUser();
+        await createUserPanel();
+        if (activeUser.roles.length > 1) {
+            console.log(activeUser);
+            await createAdminPanel();
+            return null;
+        }
     }
 
 
@@ -709,7 +490,6 @@
         await createHeader();
         await createSidebar();
         await createMainPanel();
-        await createUserPanel();
 
     })
 
@@ -776,7 +556,6 @@
 
     async function createUserPanel() {
         let activeUser = await getActiveUser();
-        console.log(activeUser);
         let userPage = document.createElement('div');
         let roles;
         if (activeUser.roles.length > 1) {
@@ -828,7 +607,9 @@
                                         </div>
                                     </div>
                                 </nav>`
-        console.log(document.body.querySelector("#mainPanel"));
+        userPage.setAttribute("class", "col-10");
+        userPage.setAttribute("id", "userPanel");
+        userPage.hidden = true;
         document.body.querySelector("#mainPanel").appendChild(userPage);
 
     }

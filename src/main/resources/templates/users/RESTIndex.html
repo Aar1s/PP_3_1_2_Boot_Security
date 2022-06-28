@@ -328,7 +328,6 @@
         editButton.setAttribute("data-bs-target", "#editModal" + user.id)
         editButton.setAttribute("onclick", "createModal('Edit', " + user.id + ")" )
         editButton.innerHTML = `Edit`;
-        //createModal("Edit", user.id);
         return editButton;
     }
 
@@ -353,9 +352,8 @@
             resolve(fetch(URL+userId)
                 .then(response => response.json())
                 .then(user => {
-                    console.log(user);
-                    console.log(user.name);
-                    modalWrap = document.createElement('div');
+                    modalWrap = document.createElement("div");
+                    modalWrap.setAttribute("id","modalWindow")
                     modalWrap.innerHTML = `
                                             <div class="modal fade" id="modal${user.id}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                                               <div class="modal-dialog">
@@ -374,19 +372,19 @@
                                                       </div>
                                                       <div class="form-group">
                                                          <strong><label for="name">First name</label></strong>
-                                                        <input type="text" class="form-control" value="${user.name}" id="name" disabled aria-describedby="nameHelp">
+                                                        <input type="text" class="form-control" value="${user.name}" id="name"  aria-describedby="nameHelp">
                                                       </div>
                                                       <div class="form-group">
                                                         <strong><label for="surname">Surname</label></strong>
-                                                        <input type="text" class="form-control" value="${user.surname}" id="surname" disabled aria-describedby="surnameHelp">
+                                                        <input type="text" class="form-control" value="${user.surname}" id="surname"  aria-describedby="surnameHelp">
                                                       </div>
                                                       <div class="form-group">
                                                          <strong><label for="age">Age</label></strong>
-                                                        <input type="number" class="form-control" value="${user.age}" id="age" disabled aria-describedby="surnameHelp">
+                                                        <input type="number" class="form-control" value="${user.age}" id="age"  aria-describedby="surnameHelp">
                                                       </div>
                                                       <div class="form-group">
                                                          <strong><label for="email">Email</label></strong>
-                                                        <input type="email" class="form-control" value="${user.username}" id="email" disabled aria-describedby="emailHelp">
+                                                        <input type="email" class="form-control" value="${user.username}" id="email"  aria-describedby="emailHelp">
                                                       </div>
 
                                                     </form>
@@ -404,10 +402,6 @@
                             modalWrap.querySelector("#modalLabel").innerHTML = "Edit";
                             modalWrap.querySelector("form").setAttribute("method", "PUT");
                             modalWrap.querySelector("form").setAttribute("action", "/test/api/" + user.id);
-                            modalWrap.querySelector("#name").disabled = false;
-                            modalWrap.querySelector("#surname").disabled = false;
-                            modalWrap.querySelector("#age").disabled = false;
-                            modalWrap.querySelector("#email").disabled = false;
                             const passwordGroup = document.createElement("div");
                             passwordGroup.innerHTML = ` <strong><label for="password">Password</label></strong>
                                                   <input type="password" class="form-control" value="${user.password}" id="password" aria-describedby="passwordHelp">`;
@@ -421,54 +415,10 @@
                                                       </select>
                                                       `
                             modalWrap.querySelector("form").appendChild(selectControl)
-                            const id = modalWrap.querySelector("#id").value;
-                            const name = modalWrap.querySelector("#name").value;
-                            const surname = modalWrap.querySelector("#surname.value");
-                            const age = modalWrap.querySelector("#age").value;
-                            const username = modalWrap.querySelector("#email").value;
-                            const password = modalWrap.querySelector("#password").value;
-                            let role = modalWrap.querySelector("#role").selectedIndex;
-                            if (role === 0) {
-                                role = [
-                                    {
-                                        "id": 1,
-                                        "name": "ROLE_USER",
-                                        "users": null,
-                                        "authority": "ROLE_USER"
-                                    }
-                                ]
-                            } else {
-                                role = [
-                                    {
-                                        "id": 1,
-                                        "name": "ROLE_USER",
-                                        "users": null,
-                                        "authority": "ROLE_USER"
-                                    },
-                                    {
-                                        "id": 2,
-                                        "name": "ROLE_ADMIN",
-                                        "users": null,
-                                        "authority": "ROLE_ADMIN"
-                                    }
-                                ]
-                            }
-                            let editedUser = {
-                                "id": id,
-                                "name": name,
-                                "surname": surname,
-                                "age": age,
-                                "roles": role,
-                                "username": username,
-                                "password": password,
-                                "enabled": true,
-                                "credentialsNonExpired": true,
-                                "accountNonExpired": true,
-                                "accountNonLocked": true
-                            }
+
                             modalWrap.querySelector(".modal-footer").innerHTML=
                                 `<button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">Close</button>
-                                <button class="btn btn-primary" onclick="editUser(${editedUser})" data-bs-dismiss="modal" type="submit">Edit User</button>`
+                                <button class="btn btn-primary" data-bs-dismiss="modal" onclick="editUser(${user.id})" type="submit">Edit User</button>`
                             break;
 
                         case "Delete":
@@ -476,6 +426,10 @@
                             modalWrap.querySelector("#modalLabel").innerHTML = "Delete";
                             modalWrap.querySelector("form").setAttribute("method", "DELETE");
                             modalWrap.querySelector("form").setAttribute("action", "/test/api/" + user.id);
+                            modalWrap.querySelector("#name").disabled = true;
+                            modalWrap.querySelector("#surname").disabled = true;
+                            modalWrap.querySelector("#age").disabled = true;
+                            modalWrap.querySelector("#email").disabled = true;
                             selectControl = document.createElement("div");
                             selectControl.innerHTML = `<strong><label for="role">Role</label></strong>
                                                       <select class="form-select" multiple aria-label="multiple select example" disabled id="role">
@@ -505,12 +459,64 @@
     async function deleteUser(id) {
         console.log("User with ID " + id + " is being deleted");
         await fetch(URL + id, {method: "DELETE"}).then(result => console.log(result))
-            //document.querySelector(".modal").remove();
+        await document.querySelector("#modalWindow").remove();
         await reRenderPage();
     }
-    async function editUser(user) {
-        console.log("Editing user with id" + user.id);
-        await fetch(URL,{method:"PUT",headers: {"Content-Type": "application/json"}, body: JSON.stringify(user)})
+
+    async function editUser(id) {
+        console.log("Editing user with ID " + id);
+        const editModal = document.body.querySelector("#modal"+id)
+        const name = editModal.querySelector("#name").value;
+        const surname = editModal.querySelector("#surname").value;
+        const age = editModal.querySelector("#age").value;
+        const username = editModal.querySelector("#email").value;
+        const password = editModal.querySelector("#password").value;
+        let role = editModal.querySelector("#role").selectedIndex;
+        if (role === 0) {
+            role = [
+                {
+                    "id": 1,
+                    "name": "ROLE_USER",
+                    "users": null,
+                    "authority": "ROLE_USER"
+                }
+            ]
+        } else {
+            role = [
+                {
+                    "id": 1,
+                    "name": "ROLE_USER",
+                    "users": null,
+                    "authority": "ROLE_USER"
+                },
+                {
+                    "id": 2,
+                    "name": "ROLE_ADMIN",
+                    "users": null,
+                    "authority": "ROLE_ADMIN"
+                }
+            ]
+        }
+        const editedUser = {
+            "id": id,
+            "name": name,
+            "surname": surname,
+            "age": age,
+            "roles": role,
+            "username": username,
+            "password": password,
+            enabled: true,
+            credentialsNonExpired: true,
+            accountNonExpired: true,
+            accountNonLocked: true
+        };
+        console.log(editedUser);
+        await fetch(URL,
+                {   method:"PUT",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(editedUser)});
+        await document.querySelector("#modalWindow").remove();
+        await reRenderPage();
     }
 
     function reRenderPage() {
@@ -522,6 +528,7 @@
         })
         p.then(data => console.log(12312));
     }
+
     function createMainPanel() {
         let p = new Promise(function(resolve) {
             resolve(fetch(URL)
@@ -630,30 +637,30 @@
                                             <form class="text-center">
                                                 <div class="form-group col-6 mx-auto">
                                                     <strong><label for="name" class="font-weight-bold">Name</label></strong>
-                                                    <input type="text" class="form-control" id="name"  aria-describedby="First Name" placeholder="Enter your first name">
+                                                    <input type="text" class="form-control" id="name"  aria-describedby="First Name" placeholder="Enter user's first name">
                                                 </div>
 
                                                 <div class="form-group col-6  mx-auto text-center">
                                                     <strong><label for="surname" class="font-weight-bold">Last Name</label></strong>
-                                                    <input type="text" class="form-control" id="surname"  aria-describedby="Second Name" placeholder="Enter your last name">
+                                                    <input type="text" class="form-control" id="surname"  aria-describedby="Second Name" placeholder="Enter user's last name">
                                                     <div id="lastNameHelp" class="form-text"></div>
 
                                                 </div>
                                                 <div class="form-group col-6  mx-auto text-center">
                                                     <strong><label for="age" class="font-weight-bold">Age</label></strong>
-                                                    <input type="number" class="form-control" id="age" aria-describedby="Age" placeholder="Enter your age">
+                                                    <input type="number" class="form-control" id="age" aria-describedby="Age" placeholder="Enter user's age">
                                                     <div id="ageHelp" class="form-text"></div>
 
                                                 </div>
                                                 <div class="form-group col-6  mx-auto text-center">
                                                     <strong><label for="username" class="font-weight-bold">Email</label></strong>
-                                                    <input type="email" class="form-control" id="username"  aria-describedby="email" placeholder="Enter your email">
+                                                    <input type="email" class="form-control" id="username"  aria-describedby="email" placeholder="Enter user's email">
                                                     <div id="email help" class="form-text"></div>
 
                                                 </div>
                                                 <div class="form-group col-6  mx-auto text-center">
                                                     <strong><label for="password" class="font-weight-bold">Password</label></strong>
-                                                    <input type="password" class="form-control"  id="password" placeholder="Enter your password">
+                                                    <input type="password" class="form-control"  id="password" placeholder="Enter user's password">
                                                 </div>
                                                 <div class="form-group col-6  mx-auto text-center">
                                                     <strong><label for="role" class="font-weight-bold">Role </label></strong>
@@ -663,7 +670,7 @@
                                                 </select>
                                                 </div>
                                                 <div class="mx-auto pt-3">
-                                                    <button type="submit" href="#home" class="btn btn-success text-center">Add new user</button>
+                                                    <button type="submit" class="btn btn-success text-center">Add new user</button>
                                                 </div>
                                         </form>
                                         </div>
@@ -686,6 +693,7 @@
             newUserForm.addEventListener("submit", (e) => {
                 e.preventDefault();
                 submitNewUserForm(newUserForm);
+
             })
 
         })
@@ -696,11 +704,11 @@
     document.addEventListener("DOMContentLoaded", async function () {
         createHeader();
         createSidebar();
-        createMainPanel();
+        await createMainPanel();
 
     })
 
-    function submitNewUserForm(userForm) {
+    async function submitNewUserForm(userForm) {
         let newUserFirstName = userForm.querySelector("#name").value;
         let newUserLastName = userForm.querySelector("#surname").value;
         let newUserAge = userForm.querySelector("#age").value;
@@ -733,7 +741,7 @@
             ]
         }
 
-        fetch(URL, {
+        await fetch(URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -752,11 +760,12 @@
 
             })
         })
-        newUserFirstName.value="";
-        newUserLastName.value="";
-        newUserAge.value="";
-        newUserEmail.value="";
-        newUserPassword.value="";
+        userForm.querySelector("#name").value = "";
+        userForm.querySelector("#surname").value = "";
+        userForm.querySelector("#age").value = "";
+        userForm.querySelector("#username").value = "";
+        userForm.querySelector("#password").value = "";
+        await reRenderPage();
 
     }
 

@@ -36,6 +36,7 @@ public class RestController {
 
     @PutMapping("/")
     public User editUser(@RequestBody User user) {
+        System.out.println(user);
         userService.edit(user);
         return user;
     }

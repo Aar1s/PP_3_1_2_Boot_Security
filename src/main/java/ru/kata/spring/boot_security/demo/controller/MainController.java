@@ -20,7 +20,8 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model, HttpServletRequest request) {
+        model.addAttribute("activeUser", userService.loadUserByUsername(request.getRemoteUser()));
         return "users/RESTIndex";
     }
 

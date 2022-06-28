@@ -255,15 +255,24 @@
             "credentialsNonExpired": true
         }
     ]
+    async function getActiveUser() {
+        let activeUser =  await fetch(URL+ "activeUser").then(response => response.json());
+        await console.log(activeUser);
 
-    function createHeader(activeUser=defaultUser) {
-        let header = document.createElement("header");
+
+
+     return activeUser;
+    }
+    async function createHeader() {
+        let activeUser = await getActiveUser();
+        console.log(activeUser);
         let roles = "";
         if (activeUser.roles.length > 1) {
             roles = "ADMIN, USER";
         } else {
             roles = "USER";
         }
+        let header = document.createElement("header");
         header.innerHTML = `
             <div>
                 <div class="header">
@@ -288,7 +297,8 @@
     }
 
 
-    function createSidebar(activeUser=defaultUser) {
+    async function createSidebar() {
+        let activeUser = await getActiveUser();
         let sidebar = document.createElement("div");
         let navbar = document.createElement("div");
         sidebar.innerHTML = `<div class="row" id="mainRow">
@@ -404,7 +414,7 @@
                             modalWrap.querySelector("form").setAttribute("action", "/test/api/" + user.id);
                             const passwordGroup = document.createElement("div");
                             passwordGroup.innerHTML = ` <strong><label for="password">Password</label></strong>
-                                                  <input type="password" class="form-control" value="${user.password}" id="password" aria-describedby="passwordHelp">`;
+                                                  <input type="password" class="form-control" id="password" aria-describedby="passwordHelp">`;
                             passwordGroup.setAttribute("class", "form-group");
                             modalWrap.querySelector("form").appendChild(passwordGroup)
                             selectControl = document.createElement("div");
@@ -597,7 +607,7 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Users Table</a>
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" onclick="reRenderPage()" aria-controls="home" aria-selected="true">Users Table</a>
                             </li>
                             <li>
                                 <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#new" role="tab" aria-controls="profile" aria-selected="false">New User</a>
@@ -702,8 +712,8 @@
 
 
     document.addEventListener("DOMContentLoaded", async function () {
-        createHeader();
-        createSidebar();
+        await createHeader();
+        await createSidebar();
         await createMainPanel();
 
     })

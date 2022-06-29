@@ -22,10 +22,8 @@ public class RestController {
     }
 
     @GetMapping("/activeUser")
-    public UserDetails getActiveUser(Principal principal) {
-        System.out.println(principal);
-        System.out.println(userService.loadUserByUsername(principal.getName()));
-        return (User) userService.loadUserByUsername(principal.getName());
+    public ResponseEntity<UserDetails> getActiveUser(Principal principal) {
+        return new ResponseEntity<>((UserDetails) userService.loadUserByUsername(principal.getName()), HttpStatus.OK);
     }
 
     @GetMapping("/")
@@ -40,22 +38,21 @@ public class RestController {
 
 
     @PostMapping("/")
-    public User addNewUser(@RequestBody User user) {
+    public ResponseEntity<User> addNewUser(@RequestBody User user) {
         //User should have no authorities and ID!
         userService.add(user);
-        return user;
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping("/")
-    public User editUser(@RequestBody User user) {
-        System.out.println(user);
+    public ResponseEntity<User> editUser(@RequestBody User user) {
         userService.edit(user);
-        return user;
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser( @PathVariable("id") int id) {
+    public ResponseEntity<String> deleteUser( @PathVariable("id") int id) {
         userService.delete(id);
-        return "User with ID " + id + " was deleted!";
+        return new ResponseEntity<>("User with ID " + id + " was deleted!", HttpStatus.OK);
     }
 }
